@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter
 
 import org.apache.spark.sql.types.{DataType, DataTypes, StructField}
 
-object JavaUtils {
+object ScalaUtils {
 
   def getTypedStructField(tuple2: (String, String)): StructField = StructField(tuple2._1, resolveDataType(tuple2._2))
 
@@ -20,5 +20,4 @@ object JavaUtils {
     case "double" => DataTypes.DoubleType
     case _ => throw new Exception(f"Mismatched data type: $columnType")
   }
-
 }

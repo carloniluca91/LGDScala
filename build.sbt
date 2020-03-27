@@ -1,17 +1,16 @@
-name := "lgd_scala_sbt"
+ThisBuild / organization := "it.carloni.luca"
+ThisBuild / name := "lgd-scala"
+ThisBuild / scalaVersion := "2.11.0"
+ThisBuild / version := "0.1"
 
-version := "0.1"
+val sparkVersion = "2.2.3"
 
-scalaVersion := "2.11.0"
+assemblyJarName in assembly := s"$name-$version.jar"
 
-// spark 2.2.3 bring on commons-cli:commons-cli:1.2
-// https://mvnrepository.com/artifact/commons-cli/commons-cli
-libraryDependencies += "commons-cli" % "commons-cli" % "1.4"
-
-// https://mvnrepository.com/artifact/org.apache.spark/spark-core
-libraryDependencies += "org.apache.spark" %% "spark-core" % "2.2.3"
-
-// https://mvnrepository.com/artifact/org.apache.spark/spark-sql
-libraryDependencies += "org.apache.spark" %% "spark-sql" % "2.2.3"
-
+lazy val lgd_scala = (project in file("."))
+  .settings(
+    libraryDependencies += ("org.apache.spark" %% "spark-core" % sparkVersion),
+    libraryDependencies += ("org.apache.spark" %% "spark-sql" % sparkVersion),
+    libraryDependencies += ("com.github.scopt" %% "scopt" % "3.3.0")
+  )
 

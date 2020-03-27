@@ -5,10 +5,10 @@ import org.apache.spark.sql.types.StructType
 
 trait StepTrait {
 
-  abstract def run()
+  def run()
 
-  abstract protected def readCsvFromPathUsingSchema(csvPath: String, schema: StructType): DataFrame
+  protected def readCsvFromPathUsingSchema(csvPath: String, schema: StructType): DataFrame
 
-  abstract protected def writeDataFrameAsCsvToPath(dataFrame: DataFrame, csvPath: String)
+  protected def writeDataFrameAsCsvToPath(dataFrame: DataFrame, csvPath: String)
 
 }

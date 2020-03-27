@@ -5,16 +5,6 @@ import java.time.format.DateTimeFormatter
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
 
-object UDFsNames {
-
-  final val AddDurationUDFName = "addDuration"
-  final val SubtractDurationUDFName = "subtractDuration"
-  final val IsDateGeqOtherDateUDFName = "isDateGeqOtherDate"
-  final val IsDateLeqOtherDateUDFName = "isDateLeqOtherDate"
-  final val LeastDateUDFName = "leastDate"
-
-}
-
 object SparkUDFs {
 
   val addDurationUDF: UserDefinedFunction = udf((date: String, datePattern: String, numberOfMonths: Int) => {

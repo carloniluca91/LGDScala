@@ -6,7 +6,7 @@ object LGDCommons {
 
     final val InputDelimiter = ";"
     final val OutputDelimiter = ";"
-    final val SparkFormat = "com.databricks.spark.csv"
+    final val SparkCsvFormat = "com.databricks.spark.csv"
   }
 
   object DatePatterns {
