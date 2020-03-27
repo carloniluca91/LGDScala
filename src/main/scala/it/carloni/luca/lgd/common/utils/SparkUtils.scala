@@ -10,6 +10,9 @@ object SparkUtils {
   def addDuration(dateColumn: Column, dateColumnFormat: String, numberOfMonths: Int): Column =
     callUDF(UDFsNames.AddDurationUDFName, dateColumn, lit(dateColumnFormat), lit(numberOfMonths))
 
+  def changeDateFormat(dateColumn: Column, oldPattern: String, newPattern: String): Column =
+    callUDF(UDFsNames.ChangeDateFormatUDFName, dateColumn, lit(oldPattern), lit(newPattern))
+
   def colSeq(dataset: Dataset[Row], columns: String*): Seq[Column] = columns map {dataset(_)}
 
   def isDateGeqOtherDate(dateColumn: Column, dateColumnFormat: String,

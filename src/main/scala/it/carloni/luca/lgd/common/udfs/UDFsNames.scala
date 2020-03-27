@@ -2,10 +2,11 @@ package it.carloni.luca.lgd.common.udfs
 
 object UDFsNames {
 
-  final val AddDurationUDFName = "addDuration"
-  final val SubtractDurationUDFName = "subtractDuration"
-  final val IsDateGeqOtherDateUDFName = "isDateGeqOtherDate"
-  final val IsDateLeqOtherDateUDFName = "isDateLeqOtherDate"
-  final val LeastDateUDFName = "leastDate"
+  val AddDurationUDFName = "addDuration"
+  val ChangeDateFormatUDFName = "changeDateFormat"
+  val SubtractDurationUDFName = "subtractDuration"
+  val IsDateGeqOtherDateUDFName = "isDateGeqOtherDate"
+  val IsDateLeqOtherDateUDFName = "isDateLeqOtherDate"
+  val LeastDateUDFName = "leastDate"
 
 }

@@ -40,6 +40,7 @@ abstract class AbstractStep extends StepTrait {
   private def registerUDFS(sparkSession: SparkSession): SparkSession = {
 
     sparkSession.udf.register(UDFsNames.AddDurationUDFName, SparkUDFs.addDurationUDF)
+    sparkSession.udf.register(UDFsNames.ChangeDateFormatUDFName, SparkUDFs.changeDateFormat)
     sparkSession.udf.register(UDFsNames.SubtractDurationUDFName, SparkUDFs.subtractDurationUDF)
     sparkSession.udf.register(UDFsNames.IsDateGeqOtherDateUDFName, SparkUDFs.isDateGeqOtherDateUDF)
     sparkSession.udf.register(UDFsNames.IsDateLeqOtherDateUDFName, SparkUDFs.isDateLeqOtherDateUDF)
@@ -53,6 +54,6 @@ abstract class AbstractStep extends StepTrait {
     sparkSession.read.format(csvFormat).option("sep", csvInputDelimiter).schema(schema).csv(csvPath)
 
   protected def writeDataFrameAsCsvToPath(dataFrame: DataFrame, csvPath: String): Unit =
-    dataFrame.repartition(1).write.format(csvFormat).option("sep", csvOutputDelimiter).mode(SaveMode.Overwrite).csv(csvPath)
+    dataFrame.coalesce(1).write.format(csvFormat).option("sep", csvOutputDelimiter).mode(SaveMode.Overwrite).csv(csvPath)
 
 }

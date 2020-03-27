@@ -9,16 +9,25 @@ object SparkUDFs {
 
   val addDurationUDF: UserDefinedFunction = udf((date: String, datePattern: String, numberOfMonths: Int) => {
 
-    if (!(date equals null)) {
+    if (date ne null) {
 
       val formatter = DateTimeFormatter.ofPattern(datePattern)
       LocalDate.parse(date, formatter).plusMonths(numberOfMonths).format(formatter)
 
     } else null })
 
+  val changeDateFormat: UserDefinedFunction = udf((date: String, oldPattern: String, newPattern: String) => {
+
+    if (date ne null) {
+
+      LocalDate.parse(date, DateTimeFormatter.ofPattern(oldPattern))
+        .format(DateTimeFormatter.ofPattern(newPattern))
+    }
+     else null })
+
   val subtractDurationUDF: UserDefinedFunction = udf((date: String, datePattern: String, numberOfMonths: Int) => {
 
-    if (!(date equals null)) {
+    if (date ne null) {
 
       val formatter = DateTimeFormatter.ofPattern(datePattern)
       LocalDate.parse(date, formatter).minusMonths(numberOfMonths).format(formatter)
@@ -27,7 +36,7 @@ object SparkUDFs {
 
   val isDateGeqOtherDateUDF: UserDefinedFunction = udf((date: String, dateFormat: String, otherDate: String, otherDateFormat: String) => {
 
-    if ((!(date equals null)) && (!(otherDate equals null))) {
+    if ((date ne null) && (otherDate ne null)) {
 
       val dateLocalDate = LocalDate.parse(date, DateTimeFormatter.ofPattern(dateFormat))
       val otherDateLocalDate = LocalDate.parse(otherDate, DateTimeFormatter.ofPattern(otherDateFormat))
@@ -37,7 +46,7 @@ object SparkUDFs {
 
   val isDateLeqOtherDateUDF: UserDefinedFunction = udf((date: String, dateFormat: String, otherDate: String, otherDateFormat: String) => {
 
-    if ((!(date equals null)) && (!(otherDate equals null))) {
+    if ((date ne null) && (otherDate ne null)) {
 
       val dateLocalDate = LocalDate.parse(date, DateTimeFormatter.ofPattern(dateFormat))
       val otherDateLocalDate = LocalDate.parse(otherDate, DateTimeFormatter.ofPattern(otherDateFormat))
@@ -47,7 +56,7 @@ object SparkUDFs {
 
   val leastDateUDF: UserDefinedFunction = udf((firstDate: String, secondDate: String, commonDateFormat: String) => {
 
-    if ((!(firstDate equals null)) && (!(secondDate equals null))) {
+    if ((firstDate ne null) && (secondDate ne null)) {
 
       val commonDateFormatter = DateTimeFormatter.ofPattern(commonDateFormat)
       val firstDateLocalDate = LocalDate.parse(firstDate, commonDateFormatter)

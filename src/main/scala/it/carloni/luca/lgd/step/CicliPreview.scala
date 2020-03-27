@@ -3,12 +3,14 @@ package it.carloni.luca.lgd.step
 import it.carloni.luca.lgd.common.AbstractStep
 import it.carloni.luca.lgd.common.utils.LGDCommons
 import it.carloni.luca.lgd.common.utils.ScalaUtils.changeLocalDateFormat
-import it.carloni.luca.lgd.common.utils.SparkUtils.toIntType
+import it.carloni.luca.lgd.common.utils.SparkUtils.{changeDateFormat, toIntType}
 import it.carloni.luca.lgd.schema.CicliPreviewSchema
 import it.carloni.luca.lgd.scopt.DataAUfficioParser.Config
-import org.apache.spark.sql.functions.{coalesce, col, lit, when}
+import org.apache.spark.sql.functions.{coalesce, col, count, lit, substring, sum, when}
+import org.apache.spark.sql.expressions.Window
 import org.apache.log4j.Logger
 import org.apache.spark.sql.Column
+import org.apache.spark.sql.types.DataTypes
 
 class CicliPreview(dataAUfficioConfig: Config) extends AbstractStep {
 
@@ -100,7 +102,51 @@ class CicliPreview(dataAUfficioConfig: Config) extends AbstractStep {
         col("datainizioristrutt"), col("datasofferenza"), col("totaccordatodatdef"),
         col("totutilizzdatdef"), segmentoCalcCol, cicloSoffCol, statoAnagraficoCol, flagApertoCol)
 
-    // TODO: prosegui da 83
+    // GROUP fposi_base BY ( codicebanca, ndgprincipale, datainiziodef );
+    val fposiGen2WindowSpec = Window.partitionBy(col("codicebanca"), col("ndgprincipale"), col("datainiziodef"))
+
+    val Y4M2D2format = "yyyyMMdd"
+    val Y4_M2_D2Format = "yyyy-MM-dd"
+
+    val fposiGen2 = fposiBase
+      .withColumn("datainiziodef", changeDateFormat(col("datainiziodef"), Y4M2D2format, Y4_M2_D2Format))
+      .withColumn("datafinedef", changeDateFormat(col("datafinedef"), Y4M2D2format, Y4_M2_D2Format))
+      .withColumn("datainiziopd", changeDateFormat(col("datainiziopd"), Y4M2D2format, Y4_M2_D2Format))
+      .withColumn("datainizioinc", changeDateFormat(col("datainizioinc"), Y4M2D2format, Y4_M2_D2Format))
+      .withColumn("datainizioristrutt", changeDateFormat(col("datainizioristrutt"), Y4M2D2format, Y4_M2_D2Format))
+      .withColumn("datasofferenza", changeDateFormat(col("datasofferenza"), Y4M2D2format, Y4_M2_D2Format))
+      .withColumn("totaccordatodatdef", sum(col("totaccordatodatdef")).over(fposiGen2WindowSpec).cast(DataTypes.DoubleType))
+      .withColumn("totutilizzdatdef", sum(col("totutilizzdatdef")).over(fposiGen2WindowSpec).cast(DataTypes.DoubleType))
+      .drop(col("flag_aperto"))
+
+    writeDataFrameAsCsvToPath(fposiGen2, fposiGen2OutputPath)
+
+    /*
+       group.ufficio          as ufficio
+      ,group.datarif          as datarif
+      ,group.flag_aperto      as flag_aperto
+      ,group.codicebanca      as codicebanca
+      ,group.segmento_calc    as segmento_calc
+      ,SUBSTRING(group.$4,0,6) as mese_apertura
+      ,SUBSTRING(group.$5,0,6)   as mese_chiusura
+      ,group.stato_anagrafico as stato_anagrafico
+      ,group.ciclo_soff       as ciclo_soff
+      ,COUNT(fposi_base)      as row_count
+      ,SUM(fposi_base.totaccordatodatdef) as totaccordatodatdef
+      ,SUM(fposi_base.totutilizzdatdef)   as totutilizzdatdef
+     */
+
+    val meseAperturaCol = substring(col("datainiziodef"), 0, 6).as("mese_apertura")
+    val meseChiusuraCol = substring(col("datafinedef"), 0, 6).as("mese_chiusura")
+
+    val fposiSintGen2 = fposiBase.groupBy(col("ufficio"), col("datarif"), col("flag_aperto"),
+      col("codicebanca"), col("segmento_calc"), meseAperturaCol, meseChiusuraCol,
+      col("stato_anagrafico"), col("ciclo_soff"))
+      .agg(count("*").as("row_count"),
+        sum(col("totaccordatodatdef")).cast(DataTypes.DoubleType).as("totaccordatodatdef"),
+        sum(col("totutilizzdatdef")).cast(DataTypes.DoubleType).as("totutilizzdatdef"))
+
+    writeDataFrameAsCsvToPath(fposiSintGen2, fposiSintGen2OutputPath)
   }
 
   private def getOrElse(column: Column): Column = when(column.isNotNull, column).otherwise("99999999")
