@@ -7,7 +7,7 @@ trait StepTrait {
 
   def run()
 
-  protected def readCsvFromPathUsingSchema(csvPath: String, schema: StructType): DataFrame
+  protected def readCsvFromPathUsingSchema(csvPath: String, pigSchema: Map[String, String]): DataFrame
 
   protected def writeDataFrameAsCsvToPath(dataFrame: DataFrame, csvPath: String)
 

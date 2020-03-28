@@ -33,8 +33,7 @@ class CiclilavStep1(dataDaDataAConfig: Config) extends AbstractStep {
     logger.debug(s"ciclilavStep1GenOutputPath: $ciclilavStep1GenOutputPath")
     logger.debug(s"ciclilavStep1FileCraccOutputhPath: $ciclilavStep1FileCraccOutputhPath")
 
-    val tlbcidefStructType = fromPigSchemaToStructType(tlbcidefPigSchema)
-    val tlbcidef = readCsvFromPathUsingSchema(tlbcidefCsvPath, tlbcidefStructType)
+    val tlbcidef = readCsvFromPathUsingSchema(tlbcidefCsvPath, tlbcidefPigSchema)
 
     /*
      (TRIM(status_ingresso)=='PASTDUE'?dt_ingresso_status:null) as datainiziopd,
@@ -77,8 +76,7 @@ class CiclilavStep1(dataDaDataAConfig: Config) extends AbstractStep {
     val dataALowerBound = if (dataAInt <= 20150731) 20150731 else dataAInt
     logger.debug(s"dataALowerBound: $dataALowerBound")
 
-    val tlbcraccStructType = fromPigSchemaToStructType(tlbcraccPigSchema)
-    val tlbcracc = readCsvFromPathUsingSchema(tlbcraccCsvPath, tlbcraccStructType)
+    val tlbcracc = readCsvFromPathUsingSchema(tlbcraccCsvPath, tlbcraccPigSchema)
       .filter(col("data_rif") <= dataALowerBound)
 
     // JOIN tlbcidef_max BY (cd_isti, ndg_principale) LEFT, tlbcracc BY (cd_isti, ndg);

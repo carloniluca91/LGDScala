@@ -36,8 +36,7 @@ class CicliPreview(dataAUfficioConfig: Config) extends AbstractStep {
     logger.debug(s"dataA: $dataA")
     logger.debug(s"ufficio: $ufficio")
 
-    val fposiLoadStructType = fromPigSchemaToStructType(fposiLoadPigSchema)
-    val fposiLoad = readCsvFromPathUsingSchema(fposiOutdirCsvPath, fposiLoadStructType)
+    val fposiLoad = readCsvFromPathUsingSchema(fposiOutdirCsvPath, fposiLoadPigSchema)
 
     // ,ToString(ToDate('$data_a','yyyyMMdd'),'yyyy-MM-dd') as datarif
     val dataRifCol = lit(changeLocalDateFormat(dataA, LGDCommons.DatePatterns.DataAPattern, "yyyy-MM-dd")).as("datarif")

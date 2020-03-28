@@ -48,10 +48,13 @@ abstract class AbstractStep extends StepTrait {
     sparkSession
   }
 
-  protected def fromPigSchemaToStructType(columnMap: Map[String, String]) = new StructType(columnMap.map(ScalaUtils.getTypedStructField).toArray)
+  private def fromPigSchemaToStructType(columnMap: Map[String, String]) = new StructType(columnMap.map(ScalaUtils.getTypedStructField).toArray)
 
-  protected def readCsvFromPathUsingSchema(csvPath: String, schema: StructType): DataFrame =
-    sparkSession.read.format(csvFormat).option("sep", csvInputDelimiter).schema(schema).csv(csvPath)
+  protected def readCsvFromPathUsingSchema(csvPath: String, pigSchema: Map[String, String]): DataFrame = {
+
+    val sparkStructType = fromPigSchemaToStructType(pigSchema)
+    sparkSession.read.format(csvFormat).option("sep", csvInputDelimiter).schema(sparkStructType).csv(csvPath)
+  }
 
   protected def writeDataFrameAsCsvToPath(dataFrame: DataFrame, csvPath: String): Unit =
     dataFrame.coalesce(1).write.format(csvFormat).option("sep", csvOutputDelimiter).mode(SaveMode.Overwrite).csv(csvPath)
