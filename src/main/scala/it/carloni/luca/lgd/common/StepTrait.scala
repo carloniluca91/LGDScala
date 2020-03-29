@@ -5,7 +5,7 @@ import org.apache.spark.sql.types.StructType
 
 trait StepTrait {
 
-  def run()
+  def run(): Unit
 
   protected def readCsvFromPathUsingSchema(csvPath: String, pigSchema: Map[String, String]): DataFrame
 

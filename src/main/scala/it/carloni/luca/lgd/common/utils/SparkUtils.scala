@@ -15,13 +15,8 @@ object SparkUtils {
 
   def colSeq(dataset: Dataset[Row], columns: String*): Seq[Column] = columns map {dataset(_)}
 
-  def isDateGeqOtherDate(dateColumn: Column, dateColumnFormat: String,
-                         otherDateColumn: Column, otherDateColumnFormat: String): Column =
-    callUDF(UDFsNames.IsDateGeqOtherDateUDFName, dateColumn, lit(dateColumnFormat), otherDateColumn, lit(otherDateColumnFormat))
-
-  def isDateLeqOtherDate(dateColumn: Column, dateColumnFormat: String,
-                         otherDateColumn: Column, otherDateColumnFormat: String): Column =
-    callUDF(UDFsNames.IsDateLeqOtherDateUDFName, dateColumn, lit(dateColumnFormat), otherDateColumn, lit(otherDateColumnFormat))
+  def daysBetween(firstDate: Column, secondDate: Column, commonPattern: String): Column =
+    callUDF(UDFsNames.DaysBetweenUDFName, firstDate, secondDate, lit(commonPattern))
 
   def leastDate(firstDateColumn: Column, secondDateColumn: String, commonDatePattern: String): Column =
     callUDF(UDFsNames.LeastDateUDFName, firstDateColumn, lit(secondDateColumn), lit(commonDatePattern))

@@ -16,7 +16,7 @@ class CiclilavStep1(dataDaDataAConfig: Config) extends AbstractStep {
   private val tlbcidefCsvPath = getPropertyValue("ciclilav.step1.tlbcidef.csv")
   private val tlbcraccCsvPath = getPropertyValue("ciclilav.step1.tlbcracc.csv")
   private val ciclilavStep1GenOutputPath = getPropertyValue("ciclilav.step1.out.csv")
-  private val ciclilavStep1FileCraccOutputhPath = getPropertyValue("ciclilav.step1.filecracc.csv")
+  private val ciclilavStep1FileCraccOutputhPath = getPropertyValue("ciclilav.step1.filecracc")
 
   // STEP SCHEMAS
   private val tlbcidefPigSchema = CiclilavStep1Schema.TlbcidefPigSchema

@@ -9,9 +9,9 @@ import org.apache.log4j.Logger
 
 abstract class AbstractStep extends StepTrait {
 
-  private val logger: Logger = Logger.getLogger(getClass)
-  private val lgdProperties: PropertiesConfiguration = new PropertiesConfiguration
-  private val sparkSession: SparkSession = getSparkSessionWithUDFs
+  private final val logger: Logger = Logger.getLogger(getClass)
+  private final val lgdProperties: PropertiesConfiguration = new PropertiesConfiguration
+  private final val sparkSession: SparkSession = getSparkSessionWithUDFs
 
   // TRY TO LOAD PROPERTIES
   try
@@ -25,9 +25,9 @@ abstract class AbstractStep extends StepTrait {
       logger.error(exception)
   }
 
-  private val csvFormat: String = LGDCommons.CSV.SparkCsvFormat
-  private val csvInputDelimiter: String = LGDCommons.CSV.InputDelimiter
-  private val csvOutputDelimiter: String = LGDCommons.CSV.OutputDelimiter
+  private final val csvFormat: String = LGDCommons.CSV.SparkCsvFormat
+  private final val csvInputDelimiter: String = LGDCommons.CSV.InputDelimiter
+  private final val csvOutputDelimiter: String = LGDCommons.CSV.OutputDelimiter
 
   logger.debug(s"csvFormat : $csvFormat")
   logger.debug(s"csvInputDelimiter: $csvInputDelimiter")
@@ -40,11 +40,10 @@ abstract class AbstractStep extends StepTrait {
   private def registerUDFS(sparkSession: SparkSession): SparkSession = {
 
     sparkSession.udf.register(UDFsNames.AddDurationUDFName, SparkUDFs.addDurationUDF)
-    sparkSession.udf.register(UDFsNames.ChangeDateFormatUDFName, SparkUDFs.changeDateFormat)
-    sparkSession.udf.register(UDFsNames.SubtractDurationUDFName, SparkUDFs.subtractDurationUDF)
-    sparkSession.udf.register(UDFsNames.IsDateGeqOtherDateUDFName, SparkUDFs.isDateGeqOtherDateUDF)
-    sparkSession.udf.register(UDFsNames.IsDateLeqOtherDateUDFName, SparkUDFs.isDateLeqOtherDateUDF)
+    sparkSession.udf.register(UDFsNames.ChangeDateFormatUDFName, SparkUDFs.changeDateFormatUDF)
+    sparkSession.udf.register(UDFsNames.DaysBetweenUDFName, SparkUDFs.daysBetweenUDF)
     sparkSession.udf.register(UDFsNames.LeastDateUDFName, SparkUDFs.leastDateUDF)
+    sparkSession.udf.register(UDFsNames.SubtractDurationUDFName, SparkUDFs.subtractDurationUDF)
     sparkSession
   }
 
