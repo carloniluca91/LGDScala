@@ -38,4 +38,12 @@ object FpasperdSchema {
     "importo" -> "chararray"
   )
 
+  val tlbpaspeossPigSchema = Map(
+
+    "cd_istituto" -> "chararray",
+    "ndg" -> "chararray",
+    "datacont" -> "int",
+    "causale" -> "chararray",
+    "importo" -> "chararray"
+  )
 }

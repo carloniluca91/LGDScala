@@ -10,20 +10,9 @@ import org.apache.log4j.Logger
 abstract class AbstractStep extends StepTrait {
 
   private final val logger: Logger = Logger.getLogger(getClass)
-  private final val lgdProperties: PropertiesConfiguration = new PropertiesConfiguration
   private final val sparkSession: SparkSession = getSparkSessionWithUDFs
-
-  // TRY TO LOAD PROPERTIES
-  try
-
-    lgdProperties.load(getClass.getClassLoader.getResourceAsStream("lgd.properties"))
-
-  catch {
-    case exception: ConfigurationException =>
-      logger.error("ConfigurationException occurred")
-      logger.error(s"exception.getMessage: ${exception.getMessage}")
-      logger.error(exception)
-  }
+  private final val lgdProperties: PropertiesConfiguration = new PropertiesConfiguration
+  loadProperties()
 
   private final val csvFormat: String = LGDCommons.CSV.SparkCsvFormat
   private final val csvInputDelimiter: String = LGDCommons.CSV.InputDelimiter
@@ -32,8 +21,6 @@ abstract class AbstractStep extends StepTrait {
   logger.debug(s"csvFormat : $csvFormat")
   logger.debug(s"csvInputDelimiter: $csvInputDelimiter")
   logger.debug(s"csvOutputDelimiter:  $csvOutputDelimiter")
-
-  protected def getPropertyValue(propertyName: String): String = lgdProperties.getString(propertyName)
 
   private def getSparkSessionWithUDFs: SparkSession = registerUDFS(SparkSession.builder().getOrCreate())
 
@@ -49,13 +36,37 @@ abstract class AbstractStep extends StepTrait {
 
   private def fromPigSchemaToStructType(columnMap: Map[String, String]) = new StructType(columnMap.map(ScalaUtils.getTypedStructField).toArray)
 
+  private def loadProperties(): Unit = {
+
+    // TRY TO LOAD PROPERTIES
+    try lgdProperties.load(getClass.getClassLoader.getResourceAsStream("lgd.properties"))
+    catch {
+      case exception: ConfigurationException =>
+        logger.error("ConfigurationException occurred")
+        logger.error(s"exception.getMessage: ${exception.getMessage}")
+        logger.error(exception)
+    }
+  }
+
+  protected def getPropertyValue(propertyName: String): String = lgdProperties.getString(propertyName)
+
   protected def readCsvFromPathUsingSchema(csvPath: String, pigSchema: Map[String, String]): DataFrame = {
 
     val sparkStructType = fromPigSchemaToStructType(pigSchema)
-    sparkSession.read.format(csvFormat).option("sep", csvInputDelimiter).schema(sparkStructType).csv(csvPath)
+    sparkSession.read.
+      format(csvFormat)
+      .option("sep", csvInputDelimiter)
+      .schema(sparkStructType)
+      .csv(csvPath)
   }
 
-  protected def writeDataFrameAsCsvToPath(dataFrame: DataFrame, csvPath: String): Unit =
-    dataFrame.coalesce(1).write.format(csvFormat).option("sep", csvOutputDelimiter).mode(SaveMode.Overwrite).csv(csvPath)
+  protected def writeDataFrameAsCsvToPath(dataFrame: DataFrame, csvPath: String): Unit = {
 
+    dataFrame.coalesce(1)
+      .write
+      .format(csvFormat)
+      .option("sep", csvOutputDelimiter)
+      .mode(SaveMode.Overwrite)
+      .csv(csvPath)
+  }
 }
