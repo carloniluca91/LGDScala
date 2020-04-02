@@ -2,9 +2,9 @@ package it.carloni.luca.lgd.schema
 
 import scala.collection.immutable.Map
 
-object FpasperdSchema {
+object FrappPumaSchema {
 
-  val tlbcidefLoadPigSchema: Map[String, String] = Map(
+  val tlbcidefPigSchema: Map[String, String] = Map(
 
     "codicebanca" -> "chararray",
     "ndgprincipale" -> "chararray",
@@ -28,24 +28,20 @@ object FpasperdSchema {
     "ndg_collegato" -> "chararray",
     "codicebanca_collegato" -> "chararray",
     "cd_collegamento" -> "chararray",
-    "cd_fiscale" -> "chararray"
+    "cd_fiscale" -> "chararray",
+    "dt_rif_udct" -> "int"
   )
 
-  val tlbpaspeFilterPigSchema: Map[String, String] = Map(
+  val tlbgaranPigSchema: Map[String, String] = Map(
 
     "cd_istituto" -> "chararray",
     "ndg" -> "chararray",
-    "datacont" -> "int",
-    "causale" -> "chararray",
-    "importo" -> "chararray"
-  )
-
-  val tlbpaspeossPigSchema: Map[String, String] = Map(
-
-    "cd_istituto" -> "chararray",
-    "ndg" -> "chararray",
-    "datacont" -> "int",
-    "causale" -> "chararray",
-    "importo" -> "chararray"
+    "sportello" -> "chararray",
+    "dt_riferimento" -> "int",
+    "conto_esteso" -> "chararray",
+    "cd_puma2" -> "chararray",
+    "ide_garanzia" -> "chararray",
+    "importo" -> "chararray",
+    "fair_value" -> "chararray"
   )
 }

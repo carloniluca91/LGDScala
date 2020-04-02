@@ -5,7 +5,7 @@ import it.carloni.luca.lgd.step.CicliPreview
 
 object CicliPreviewApp extends App {
 
-  val dataAUfficioConfig = DataAUfficioParser.Config
+  val dataAUfficioConfig = DataAUfficioParser.DataAUfficioConfig
   val optionParser = DataAUfficioParser.optionParser
 
   optionParser.parse(args, dataAUfficioConfig()) match {

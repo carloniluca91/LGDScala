@@ -15,6 +15,13 @@ object LGDCommons {
     final val DataDaPattern = "yyyyMMdd"
     final val DataOsservazionePattern = "yyyyMMdd"
     final val PeriodoPattern = "yyyy-MM"
+
+    final val Y4M2D2Pattern = "yyyyMMdd"
+  }
+
+  object Scopt {
+
+    final val scoptProgramName = "scopt 3.3.0"
   }
 
 }

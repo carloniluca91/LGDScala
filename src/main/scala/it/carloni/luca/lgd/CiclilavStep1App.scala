@@ -5,7 +5,7 @@ import it.carloni.luca.lgd.step.CiclilavStep1
 
 object CiclilavStep1App extends App {
 
-  val dataDaDataAConfig = DataDaDataAParser.Config
+  val dataDaDataAConfig = DataDaDataAParser.DataDaDataAConfig
   val optionParser = DataDaDataAParser.optionParser
 
   optionParser.parse(args, dataDaDataAConfig()) match {

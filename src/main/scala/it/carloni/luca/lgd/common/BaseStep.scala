@@ -1,6 +1,6 @@
 package it.carloni.luca.lgd.common
 
-import it.carloni.luca.lgd.common.utils.{ScalaUtils, LGDCommons}
+import it.carloni.luca.lgd.common.utils.{LGDCommons, ScalaUtils}
 import it.carloni.luca.lgd.common.udfs.{SparkUDFs, UDFsNames}
 import org.apache.commons.configuration.{ConfigurationException, PropertiesConfiguration}
 import org.apache.spark.sql.types.StructType

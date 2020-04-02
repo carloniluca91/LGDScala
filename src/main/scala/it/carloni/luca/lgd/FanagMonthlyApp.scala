@@ -5,7 +5,7 @@ import it.carloni.luca.lgd.step.FanagMonthly
 
 object FanagMonthlyApp extends App {
 
-  val dataANumeroMesi12Config = DataANumeroMesi12Parser.Config
+  val dataANumeroMesi12Config = DataANumeroMesi12Parser.DataANumeroMesi12Config
   val optionParser = DataANumeroMesi12Parser.optionParser
 
   optionParser.parse(args, dataANumeroMesi12Config()) match {

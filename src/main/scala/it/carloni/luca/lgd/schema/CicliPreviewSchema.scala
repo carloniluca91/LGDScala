@@ -1,8 +1,10 @@
 package it.carloni.luca.lgd.schema
 
+import scala.collection.immutable.Map
+
 object CicliPreviewSchema {
 
-  val fposiLoadPigSchema = Map(
+  val fposiLoadPigSchema: Map[String, String] = Map(
 
     "codicebanca" -> "chararray",
     "ndgprincipale" -> "chararray",
@@ -17,5 +19,4 @@ object CicliPreviewSchema {
     "segmento" -> "chararray",
     "naturagiuridica_segm" -> "chararray"
   )
-
 }

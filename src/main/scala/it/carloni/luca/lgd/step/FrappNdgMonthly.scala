@@ -3,14 +3,15 @@ package it.carloni.luca.lgd.step
 import it.carloni.luca.lgd.common.BaseStep
 import it.carloni.luca.lgd.common.utils.LGDCommons
 import it.carloni.luca.lgd.schema.FrappNdgMonthlySchema
-import it.carloni.luca.lgd.scopt.DataANumeroMesi12Parser.Config
+import it.carloni.luca.lgd.scopt.DataANumeroMesi12Parser.DataANumeroMesi12Config
 import it.carloni.luca.lgd.common.utils.SparkUtils.{addDuration, leastDate, subtractDuration, toIntType, toStringType}
 import it.carloni.luca.lgd.common.utils.ScalaUtils.changeLocalDateFormat
 import org.apache.spark.sql.functions.{col, substring}
 import org.apache.spark.sql.{Column, DataFrame}
 import org.apache.log4j.Logger
 
-class FrappNdgMonthly(dataANumeroMesi12Config: Config) extends BaseStep {
+class FrappNdgMonthly(private val dataANumeroMesi12Config: DataANumeroMesi12Config)
+  extends BaseStep {
 
   private val logger = Logger.getLogger(getClass)
 

@@ -1,8 +1,10 @@
 package it.carloni.luca.lgd.schema
 
+import scala.collection.immutable.Map
+
 object CiclilavStep1Schema {
 
-  val TlbcidefPigSchema = Map(
+  val tlbcidefPigSchema: Map[String, String] = Map(
 
     "cd_isti" -> "chararray",
     "ndg_principale" -> "chararray",
@@ -17,7 +19,7 @@ object CiclilavStep1Schema {
     "indi_impr_priv" -> "chararray"
   )
 
-  val TlbcraccPigSchema = Map(
+  val tlbcraccPigSchema: Map[String, String] = Map(
 
     "data_rif" -> "int",
     "cd_isti" -> "chararray",

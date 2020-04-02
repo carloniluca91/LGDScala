@@ -1,8 +1,10 @@
 package it.carloni.luca.lgd.schema
 
+import scala.collection.immutable.Map
+
 object FrappNdgMonthlySchema {
 
-  val tlbcidefPigSchema = Map(
+  val tlbcidefPigSchema: Map[String, String] = Map(
 
     "codicebanca" -> "chararray",
     "ndgprincipale" -> "chararray",
@@ -30,7 +32,7 @@ object FrappNdgMonthlySchema {
     "dt_rif_udct" -> "int"
   )
 
-  val tlburttPigSchema = Map(
+  val tlburttPigSchema: Map[String, String] = Map(
 
     "cd_istituto" -> "chararray",
     "ndg" -> "chararray",

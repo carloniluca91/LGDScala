@@ -5,14 +5,15 @@ import it.carloni.luca.lgd.common.utils.LGDCommons
 import it.carloni.luca.lgd.common.utils.ScalaUtils.changeLocalDateFormat
 import it.carloni.luca.lgd.common.utils.SparkUtils.{changeDateFormat, toIntType}
 import it.carloni.luca.lgd.schema.CicliPreviewSchema
-import it.carloni.luca.lgd.scopt.DataAUfficioParser.Config
+import it.carloni.luca.lgd.scopt.DataAUfficioParser.DataAUfficioConfig
 import org.apache.spark.sql.functions.{coalesce, col, count, lit, substring, sum, when}
 import org.apache.spark.sql.expressions.Window
-import org.apache.log4j.Logger
-import org.apache.spark.sql.Column
 import org.apache.spark.sql.types.DataTypes
+import org.apache.spark.sql.Column
+import org.apache.log4j.Logger
 
-class CicliPreview(dataAUfficioConfig: Config) extends BaseStep {
+class CicliPreview(private val dataAUfficioConfig: DataAUfficioConfig)
+  extends BaseStep {
 
   private val logger = Logger.getLogger(getClass)
 

@@ -4,16 +4,12 @@ import it.carloni.luca.lgd.common.utils.LGDCommons
 import it.carloni.luca.lgd.scopt.option.{OptionNaming, OptionValidation}
 import scopt.OptionParser
 
-object DataAUfficioParser {
+object DataAParser {
 
-  case class DataAUfficioConfig(ufficio: String = null, dataA: String = null)
+  case class DataAConfig(dataA: String = null)
 
-  val optionParser: OptionParser[DataAUfficioConfig] = new OptionParser[DataAUfficioConfig](LGDCommons.Scopt.scoptProgramName) {
-
-    // UFFICIO
-    opt[String](OptionNaming.UfficioLongOption)
-      .required
-      .action((inputUfficio, config) => config.copy(ufficio = inputUfficio))
+  val optionParser: OptionParser[DataAConfig] = new OptionParser
+    [DataAConfig](LGDCommons.Scopt.scoptProgramName) {
 
     // DATA_A
     opt[String](OptionNaming.DataALongOption)

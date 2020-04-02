@@ -1,8 +1,10 @@
 package it.carloni.luca.lgd.schema
 
+import scala.collection.immutable.Map
+
 object FanagMonthlySchema {
 
-  val cicliNdgPigSchema = Map(
+  val cicliNdgPigSchema: Map[String, String] = Map(
 
     "codicebanca" -> "chararray",
     "ndgprincipale" -> "chararray",
@@ -30,7 +32,7 @@ object FanagMonthlySchema {
     "dt_rif_udct" -> "int"
   )
 
-  val tlbuactLoadPigSchema = Map(
+  val tlbuactLoadPigSchema: Map[String, String] = Map(
 
     "cd_istituto" -> "chararray",
     "ndg" -> "chararray",
@@ -68,7 +70,7 @@ object FanagMonthlySchema {
     "n160_cod_ateco" -> "chararray"
   )
 
-  val tlbudtcPigSchema = Map(
+  val tlbudtcPigSchema: Map[String, String] = Map(
 
     "cd_istituto" -> "chararray",
     "ndg" -> "chararray",

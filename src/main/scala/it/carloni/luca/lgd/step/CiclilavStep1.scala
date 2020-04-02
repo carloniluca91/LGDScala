@@ -4,11 +4,12 @@ import it.carloni.luca.lgd.common.BaseStep
 import it.carloni.luca.lgd.common.utils.LGDCommons
 import it.carloni.luca.lgd.common.utils.ScalaUtils.changeLocalDateFormat
 import it.carloni.luca.lgd.schema.CiclilavStep1Schema
-import it.carloni.luca.lgd.scopt.DataDaDataAParser.Config
+import it.carloni.luca.lgd.scopt.DataDaDataAParser.DataDaDataAConfig
 import org.apache.spark.sql.functions.{coalesce, col, lit, max, min, trim, when}
 import org.apache.log4j.Logger
 
-class CiclilavStep1(dataDaDataAConfig: Config) extends BaseStep {
+class CiclilavStep1(private val dataDaDataAConfig: DataDaDataAConfig)
+  extends BaseStep {
 
   private val logger = Logger.getLogger(getClass)
 
@@ -19,8 +20,8 @@ class CiclilavStep1(dataDaDataAConfig: Config) extends BaseStep {
   private val ciclilavStep1FileCraccOutputhPath = getPropertyValue("ciclilav.step1.filecracc")
 
   // STEP SCHEMAS
-  private val tlbcidefPigSchema = CiclilavStep1Schema.TlbcidefPigSchema
-  private val tlbcraccPigSchema = CiclilavStep1Schema.TlbcraccPigSchema
+  private val tlbcidefPigSchema = CiclilavStep1Schema.tlbcidefPigSchema
+  private val tlbcraccPigSchema = CiclilavStep1Schema.tlbcraccPigSchema
 
   // STEP PARAMETERS
   private val dataDa = dataDaDataAConfig.dataDa

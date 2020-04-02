@@ -5,12 +5,13 @@ import it.carloni.luca.lgd.common.utils.LGDCommons
 import it.carloni.luca.lgd.common.utils.ScalaUtils.changeLocalDateFormat
 import it.carloni.luca.lgd.common.utils.SparkUtils.{addDuration, leastDate, subtractDuration}
 import it.carloni.luca.lgd.schema.FanagMonthlySchema
-import it.carloni.luca.lgd.scopt.DataANumeroMesi12Parser.Config
+import it.carloni.luca.lgd.scopt.DataANumeroMesi12Parser.DataANumeroMesi12Config
 import org.apache.spark.sql.functions.{col, substring, when}
 import org.apache.spark.sql.DataFrame
 import org.apache.log4j.Logger
 
-class FanagMonthly(dataANumeroMesi12Config: Config) extends BaseStep {
+class FanagMonthly(private val dataANumeroMesi12Config: DataANumeroMesi12Config)
+  extends BaseStep {
 
   private val logger = Logger.getLogger(getClass)
 
