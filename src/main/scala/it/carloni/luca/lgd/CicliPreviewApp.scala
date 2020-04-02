@@ -12,8 +12,7 @@ object CicliPreviewApp extends App {
 
     case Some(dataAUfficioConfig) =>
 
-      val cicliPreview = new CicliPreview(dataAUfficioConfig)
-      cicliPreview.run()
+      new CicliPreview(dataAUfficioConfig).run()
 
     case None => // arguments are bad, error message will have been displayed
   }

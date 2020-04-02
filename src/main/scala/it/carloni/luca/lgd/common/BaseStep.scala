@@ -7,7 +7,7 @@ import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
 import org.apache.log4j.Logger
 
-abstract class AbstractStep extends StepTrait {
+abstract class BaseStep extends StepTrait {
 
   private final val logger: Logger = Logger.getLogger(getClass)
   private final val sparkSession: SparkSession = getSparkSessionWithUDFs

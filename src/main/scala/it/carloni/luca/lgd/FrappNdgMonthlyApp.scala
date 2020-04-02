@@ -1,18 +1,18 @@
 package it.carloni.luca.lgd
 
 import it.carloni.luca.lgd.scopt.DataANumeroMesi12Parser
-import it.carloni.luca.lgd.step.FanagMonthly
+import it.carloni.luca.lgd.step.FrappNdgMonthly
 
-object FanagMonthlyApp extends App {
+object FrappNdgMonthlyApp extends App {
 
   val dataANumeroMesi12Config = DataANumeroMesi12Parser.Config
   val optionParser = DataANumeroMesi12Parser.optionParser
 
   optionParser.parse(args, dataANumeroMesi12Config()) match {
 
-    case Some(dataANumeroMesi12Config) =>
+    case Some(config) =>
 
-      new FanagMonthly(dataANumeroMesi12Config).run()
+      new FrappNdgMonthly(config).run()
 
     case None => // arguments are bad, error message will have been displayed
   }

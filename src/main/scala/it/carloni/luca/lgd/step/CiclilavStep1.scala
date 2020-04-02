@@ -1,6 +1,6 @@
 package it.carloni.luca.lgd.step
 
-import it.carloni.luca.lgd.common.AbstractStep
+import it.carloni.luca.lgd.common.BaseStep
 import it.carloni.luca.lgd.common.utils.LGDCommons
 import it.carloni.luca.lgd.common.utils.ScalaUtils.changeLocalDateFormat
 import it.carloni.luca.lgd.schema.CiclilavStep1Schema
@@ -8,7 +8,7 @@ import it.carloni.luca.lgd.scopt.DataDaDataAParser.Config
 import org.apache.spark.sql.functions.{coalesce, col, lit, max, min, trim, when}
 import org.apache.log4j.Logger
 
-class CiclilavStep1(dataDaDataAConfig: Config) extends AbstractStep {
+class CiclilavStep1(dataDaDataAConfig: Config) extends BaseStep {
 
   private val logger = Logger.getLogger(getClass)
 
