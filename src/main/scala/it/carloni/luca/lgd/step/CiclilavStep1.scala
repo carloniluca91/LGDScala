@@ -4,7 +4,7 @@ import it.carloni.luca.lgd.common.BaseStep
 import it.carloni.luca.lgd.common.utils.LGDCommons
 import it.carloni.luca.lgd.common.utils.ScalaUtils.changeLocalDateFormat
 import it.carloni.luca.lgd.schema.CiclilavStep1Schema
-import it.carloni.luca.lgd.scopt.DataDaDataAParser.DataDaDataAConfig
+import it.carloni.luca.lgd.scopt.parser.DataDaDataAParser.DataDaDataAConfig
 import org.apache.spark.sql.functions.{coalesce, col, lit, max, min, trim, when}
 import org.apache.log4j.Logger
 

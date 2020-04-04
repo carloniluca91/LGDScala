@@ -1,6 +1,6 @@
 package it.carloni.luca.lgd
 
-import it.carloni.luca.lgd.scopt.DataDaDataAParser
+import it.carloni.luca.lgd.scopt.parser.DataDaDataAParser
 import it.carloni.luca.lgd.step.CiclilavStep1
 
 object CiclilavStep1App extends App {

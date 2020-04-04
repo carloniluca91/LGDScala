@@ -5,7 +5,7 @@ import it.carloni.luca.lgd.common.utils.LGDCommons
 import it.carloni.luca.lgd.common.utils.ScalaUtils.changeLocalDateFormat
 import it.carloni.luca.lgd.common.utils.SparkUtils.{addDuration, leastDate, subtractDuration}
 import it.carloni.luca.lgd.schema.FanagMonthlySchema
-import it.carloni.luca.lgd.scopt.DataANumeroMesi12Parser.DataANumeroMesi12Config
+import it.carloni.luca.lgd.scopt.parser.DataANumeroMesi12Parser.DataANumeroMesi12Config
 import org.apache.spark.sql.functions.{col, substring, when}
 import org.apache.spark.sql.DataFrame
 import org.apache.log4j.Logger

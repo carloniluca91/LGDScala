@@ -1,6 +1,6 @@
 package it.carloni.luca.lgd
 
-import it.carloni.luca.lgd.scopt.DataAUfficioParser
+import it.carloni.luca.lgd.scopt.parser.DataAUfficioParser
 import it.carloni.luca.lgd.step.CicliPreview
 
 object CicliPreviewApp extends App {

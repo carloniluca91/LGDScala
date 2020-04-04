@@ -3,7 +3,7 @@ package it.carloni.luca.lgd.step
 import it.carloni.luca.lgd.common.BaseStep
 import it.carloni.luca.lgd.common.utils.LGDCommons
 import it.carloni.luca.lgd.schema.FrappPumaSchema
-import it.carloni.luca.lgd.scopt.DataAParser.DataAConfig
+import it.carloni.luca.lgd.scopt.parser.DataAParser.DataAConfig
 import it.carloni.luca.lgd.common.utils.SparkUtils.{leastDate, subtractDuration, toStringType}
 import it.carloni.luca.lgd.common.utils.ScalaUtils.changeLocalDateFormat
 import org.apache.spark.sql.functions.{col, substring}

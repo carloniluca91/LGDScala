@@ -3,7 +3,7 @@ package it.carloni.luca.lgd.step
 import it.carloni.luca.lgd.common.BaseStep
 import it.carloni.luca.lgd.common.utils.LGDCommons
 import it.carloni.luca.lgd.schema.FrappNdgMonthlySchema
-import it.carloni.luca.lgd.scopt.DataANumeroMesi12Parser.DataANumeroMesi12Config
+import it.carloni.luca.lgd.scopt.parser.DataANumeroMesi12Parser.DataANumeroMesi12Config
 import it.carloni.luca.lgd.common.utils.SparkUtils.{addDuration, leastDate, subtractDuration, toIntType, toStringType}
 import it.carloni.luca.lgd.common.utils.ScalaUtils.changeLocalDateFormat
 import org.apache.spark.sql.functions.{col, substring}

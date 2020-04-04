@@ -5,7 +5,7 @@ import it.carloni.luca.lgd.common.utils.LGDCommons
 import it.carloni.luca.lgd.common.utils.ScalaUtils.changeLocalDateFormat
 import it.carloni.luca.lgd.common.utils.SparkUtils.{changeDateFormat, toIntType}
 import it.carloni.luca.lgd.schema.CicliPreviewSchema
-import it.carloni.luca.lgd.scopt.DataAUfficioParser.DataAUfficioConfig
+import it.carloni.luca.lgd.scopt.parser.DataAUfficioParser.DataAUfficioConfig
 import org.apache.spark.sql.functions.{coalesce, col, count, lit, substring, sum, when}
 import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.types.DataTypes

@@ -1,4 +1,4 @@
-package it.carloni.luca.lgd.scopt
+package it.carloni.luca.lgd.scopt.parser
 
 import it.carloni.luca.lgd.common.utils.LGDCommons
 import it.carloni.luca.lgd.scopt.option.{OptionNaming, OptionValidation}
