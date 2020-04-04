@@ -1,15 +1,15 @@
 package it.carloni.luca.lgd.step
 
-import it.carloni.luca.lgd.common.BaseStep
-import it.carloni.luca.lgd.common.utils.LGDCommons
-import it.carloni.luca.lgd.common.utils.ScalaUtils.changeLocalDateFormat
+import it.carloni.luca.lgd.commons.LGDCommons
+import it.carloni.luca.lgd.spark.AbstractSparkStep
+import it.carloni.luca.lgd.spark.utils.ScalaUtils.changeLocalDateFormat
 import it.carloni.luca.lgd.schema.CiclilavStep1Schema
 import it.carloni.luca.lgd.scopt.parser.DataDaDataAParser.DataDaDataAConfig
 import org.apache.spark.sql.functions.{coalesce, col, lit, max, min, trim, when}
 import org.apache.log4j.Logger
 
 class CiclilavStep1(private val dataDaDataAConfig: DataDaDataAConfig)
-  extends BaseStep {
+  extends AbstractSparkStep {
 
   private val logger = Logger.getLogger(getClass)
 
@@ -50,8 +50,9 @@ class CiclilavStep1(private val dataDaDataAConfig: DataDaDataAConfig)
     val tlbcidefDataInizioSoffCol = when(statusIngressoColTrimCol === "SOFF", tlbcidef("dt_ingresso_status")).otherwise(null).as("datainiziosoff")
 
     // PARSE BOTH $data_da AND $data_a IN ORDER TO FIT WITH COLUMN dt_inizio_ciclo
-    val dataDaInt: Int = changeLocalDateFormat(dataDa, LGDCommons.DatePatterns.DataDaPattern, "yyyyMMdd").toInt
-    val dataAInt: Int = changeLocalDateFormat(dataA, LGDCommons.DatePatterns.DataAPattern, "yyyyMMdd").toInt
+    val Y4M2D2Format = LGDCommons.DatePatterns.Y4M2D2Pattern
+    val dataDaInt: Int = changeLocalDateFormat(dataDa, LGDCommons.DatePatterns.DataDaPattern, Y4M2D2Format).toInt
+    val dataAInt: Int = changeLocalDateFormat(dataA, LGDCommons.DatePatterns.DataAPattern, Y4M2D2Format).toInt
 
     val tlbcidefUnpivot = tlbcidef
       .filter(tlbcidef("dt_inizio_ciclo").between(dataDaInt, dataAInt))

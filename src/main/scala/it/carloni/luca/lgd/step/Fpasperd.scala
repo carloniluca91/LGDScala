@@ -1,15 +1,15 @@
 package it.carloni.luca.lgd.step
 
-import it.carloni.luca.lgd.common.BaseStep
+import it.carloni.luca.lgd.spark.AbstractSparkStep
 import it.carloni.luca.lgd.schema.FpasperdSchema
-import it.carloni.luca.lgd.common.utils.SparkUtils.{addDuration, daysBetween, toIntType}
+import it.carloni.luca.lgd.spark.utils.SparkUtils.{addDuration, daysBetween, toIntType}
 import org.apache.spark.sql.functions.{col, first, lit, substring, when}
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.types.DataTypes
 import org.apache.log4j.Logger
 
-class Fpasperd extends BaseStep {
+class Fpasperd extends AbstractSparkStep {
 
   private val logger = Logger.getLogger(getClass)
 

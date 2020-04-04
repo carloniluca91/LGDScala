@@ -1,4 +1,4 @@
-package it.carloni.luca.lgd.common.utils
+package it.carloni.luca.lgd.commons
 
 object LGDCommons {
 

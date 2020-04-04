@@ -1,9 +1,9 @@
-package it.carloni.luca.lgd.common
+package it.carloni.luca.lgd.spark
 
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.types.StructType
 
-trait StepTrait {
+trait SparkStepTrait {
 
   def run(): Unit
 

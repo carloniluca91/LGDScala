@@ -1,6 +1,6 @@
-package it.carloni.luca.lgd.common.utils
+package it.carloni.luca.lgd.spark.utils
 
-import it.carloni.luca.lgd.common.udfs.UDFsNames
+import it.carloni.luca.lgd.spark.udfs.UDFsNames
 import org.apache.spark.sql.functions.{callUDF, lit, regexp_replace}
 import org.apache.spark.sql.types.DataTypes
 import org.apache.spark.sql.{Column, Dataset, Row}

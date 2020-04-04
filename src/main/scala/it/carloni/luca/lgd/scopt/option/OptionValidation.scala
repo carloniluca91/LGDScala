@@ -3,7 +3,7 @@ package it.carloni.luca.lgd.scopt.option
 import java.time.LocalDate
 import java.time.format.{DateTimeFormatter, DateTimeParseException}
 
-import it.carloni.luca.lgd.common.utils.LGDCommons
+import it.carloni.luca.lgd.commons.LGDCommons
 
 object OptionValidation {
 

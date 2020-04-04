@@ -1,14 +1,15 @@
 package it.carloni.luca.lgd.step
 
-import it.carloni.luca.lgd.common.BaseStep
-import it.carloni.luca.lgd.common.utils.{LGDCommons, ScalaUtils}
+import it.carloni.luca.lgd.commons.LGDCommons
+import it.carloni.luca.lgd.spark.AbstractSparkStep
+import it.carloni.luca.lgd.spark.utils.ScalaUtils
 import it.carloni.luca.lgd.schema.MovimentiSchema
 import it.carloni.luca.lgd.scopt.parser.DataOsservazioneParser.DataOsservazioneConfig
 import org.apache.spark.sql.functions.col
 import org.apache.log4j.Logger
 
 class Movimenti(private val dataOsservazioneConfig: DataOsservazioneConfig)
-  extends BaseStep {
+  extends AbstractSparkStep {
 
   private val logger = Logger.getLogger(getClass)
 

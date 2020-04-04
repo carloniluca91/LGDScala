@@ -1,6 +1,6 @@
 package it.carloni.luca.lgd.step
 
-import it.carloni.luca.lgd.common.BaseStep
+import it.carloni.luca.lgd.spark.AbstractSparkStep
 import it.carloni.luca.lgd.schema.PosaggrSchema
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.types.DataTypes.DoubleType
@@ -8,7 +8,7 @@ import org.apache.spark.sql.functions.{col, regexp_replace, sum, trim}
 import org.apache.spark.sql.expressions.{Window, WindowSpec}
 import org.apache.log4j.Logger
 
-class Posaggr extends BaseStep {
+class Posaggr extends AbstractSparkStep {
 
   private val logger = Logger.getLogger(getClass)
 

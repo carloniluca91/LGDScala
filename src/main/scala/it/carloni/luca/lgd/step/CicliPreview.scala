@@ -1,9 +1,9 @@
 package it.carloni.luca.lgd.step
 
-import it.carloni.luca.lgd.common.BaseStep
-import it.carloni.luca.lgd.common.utils.LGDCommons
-import it.carloni.luca.lgd.common.utils.ScalaUtils.changeLocalDateFormat
-import it.carloni.luca.lgd.common.utils.SparkUtils.{changeDateFormat, toIntType}
+import it.carloni.luca.lgd.commons.LGDCommons
+import it.carloni.luca.lgd.spark.AbstractSparkStep
+import it.carloni.luca.lgd.spark.utils.ScalaUtils.changeLocalDateFormat
+import it.carloni.luca.lgd.spark.utils.SparkUtils.{changeDateFormat, toIntType}
 import it.carloni.luca.lgd.schema.CicliPreviewSchema
 import it.carloni.luca.lgd.scopt.parser.DataAUfficioParser.DataAUfficioConfig
 import org.apache.spark.sql.functions.{coalesce, col, count, lit, substring, sum, when}
@@ -13,7 +13,7 @@ import org.apache.spark.sql.Column
 import org.apache.log4j.Logger
 
 class CicliPreview(private val dataAUfficioConfig: DataAUfficioConfig)
-  extends BaseStep {
+  extends AbstractSparkStep {
 
   private val logger = Logger.getLogger(getClass)
 
