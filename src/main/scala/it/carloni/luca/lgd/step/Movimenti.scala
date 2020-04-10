@@ -29,7 +29,7 @@ class Movimenti(private val dataOsservazione: String)
     logger.debug(s"movimentiOuputPath: $movimentiOuputPath")
     logger.debug(s"dataOsservazione: $dataOsservazione")
 
-    val dataOsservazioneFormatted = ScalaUtils.changeLocalDateFormat(dataOsservazione, dataOsservazionePattern, Y4M2D2Pattern)
+    val dataOsservazioneFormatted = ScalaUtils.changeDateFormat(dataOsservazione, dataOsservazionePattern, Y4M2D2Pattern)
     val movout = readCsvFromPathUsingSchema(tlbmovcontaCsvPath, tlbmovcontaPigSchema)
       .filter(col("mo_dt_contabile") <= dataOsservazioneFormatted)
       .distinct()

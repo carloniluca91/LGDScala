@@ -7,7 +7,7 @@ import org.apache.spark.sql.types.{DataType, DataTypes, StructField}
 
 object ScalaUtils {
 
-  def changeLocalDateFormat(localDate: String, localDateOriginalPattern: String, localDateNewPattern: String): String =
+  def changeDateFormat(localDate: String, localDateOriginalPattern: String, localDateNewPattern: String): String =
     LocalDate.parse(localDate, DateTimeFormatter.ofPattern(localDateOriginalPattern))
       .format(DateTimeFormatter.ofPattern(localDateNewPattern))
 

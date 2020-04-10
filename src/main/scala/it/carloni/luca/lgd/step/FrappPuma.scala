@@ -4,7 +4,7 @@ import it.carloni.luca.lgd.commons.LGDCommons
 import it.carloni.luca.lgd.spark.AbstractSparkStep
 import it.carloni.luca.lgd.schema.FrappPumaSchema
 import it.carloni.luca.lgd.spark.utils.SparkUtils.{leastDate, subtractDuration, toStringType}
-import it.carloni.luca.lgd.spark.utils.ScalaUtils.changeLocalDateFormat
+import it.carloni.luca.lgd.spark.utils.ScalaUtils.changeDateFormat
 import org.apache.spark.sql.functions.{col, substring}
 import org.apache.spark.sql.Column
 import org.apache.log4j.Logger
@@ -46,7 +46,7 @@ class FrappPuma(private val dataA: String)
     // and SUBSTRING( (chararray)dt_riferimento,0,6 ) <= SUBSTRING( (chararray)LeastDate( (int)ToString(SubtractDuration(ToDate((chararray)datafinedef,'yyyyMMdd' ),'P1M'),'yyyyMMdd') ,$data_a),0,6 );
 
     // FORMAT $data_a IN ORDER TO FIT WITH LEAST_DATE FUNCTION
-    val dataAFormatted = changeLocalDateFormat(dataA, LGDCommons.DatePatterns.DataAPattern, LGDCommons.DatePatterns.Y4M2D2Pattern)
+    val dataAFormatted = changeDateFormat(dataA, LGDCommons.DatePatterns.DataAPattern, LGDCommons.DatePatterns.Y4M2D2Pattern)
     val dataFineDefSubtractDurationCol = subtractDuration(toStringType(cicliNdgPrinc("datainiziodef")), LGDCommons.DatePatterns.Y4M2D2Pattern, 1)
     val leastDateSubtractDurationCol = leastDate(dataFineDefSubtractDurationCol, dataAFormatted, LGDCommons.DatePatterns.Y4M2D2Pattern)
 

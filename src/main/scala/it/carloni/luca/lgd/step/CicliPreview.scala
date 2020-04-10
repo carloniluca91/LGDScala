@@ -2,7 +2,7 @@ package it.carloni.luca.lgd.step
 
 import it.carloni.luca.lgd.commons.LGDCommons
 import it.carloni.luca.lgd.spark.AbstractSparkStep
-import it.carloni.luca.lgd.spark.utils.ScalaUtils.changeLocalDateFormat
+import it.carloni.luca.lgd.spark.utils.ScalaUtils.changeDateFormat
 import it.carloni.luca.lgd.spark.utils.SparkUtils.{changeDateFormat, toIntType}
 import it.carloni.luca.lgd.schema.CicliPreviewSchema
 import org.apache.spark.sql.functions.{coalesce, col, count, lit, substring, sum, when}
@@ -35,7 +35,7 @@ class CicliPreview(private val dataA: String, private val ufficio: String)
     val fposiLoad = readCsvFromPathUsingSchema(fposiOutdirCsvPath, fposiLoadPigSchema)
 
     // ,ToString(ToDate('$data_a','yyyyMMdd'),'yyyy-MM-dd') as datarif
-    val dataRifCol = lit(changeLocalDateFormat(dataA, LGDCommons.DatePatterns.DataAPattern, "yyyy-MM-dd")).as("datarif")
+    val dataRifCol = lit(changeDateFormat(dataA, LGDCommons.DatePatterns.DataAPattern, "yyyy-MM-dd")).as("datarif")
 
     // (naturagiuridica_segm != 'CO' AND segmento in ('01','02','03','21')?'IM': (segmento == '10'?'PR':'AL')) as segmento_calc
     val segmentoCalcCol = when((col("naturagiuridica_segm") =!= "CO") && col("segmento").isin("01", "02", "03", "21"),

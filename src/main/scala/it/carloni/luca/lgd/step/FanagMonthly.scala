@@ -2,7 +2,7 @@ package it.carloni.luca.lgd.step
 
 import it.carloni.luca.lgd.commons.LGDCommons
 import it.carloni.luca.lgd.spark.AbstractSparkStep
-import it.carloni.luca.lgd.spark.utils.ScalaUtils.changeLocalDateFormat
+import it.carloni.luca.lgd.spark.utils.ScalaUtils.changeDateFormat
 import it.carloni.luca.lgd.spark.utils.SparkUtils.{addDuration, leastDate, subtractDuration}
 import it.carloni.luca.lgd.schema.FanagMonthlySchema
 import org.apache.spark.sql.functions.{col, substring, when}
@@ -63,7 +63,7 @@ class FanagMonthly(private val dataA: String, private val numeroMesi1: Int, priv
 
       // PARSE $data_a IN ORDER TO FIT WITH LEAST_DATE UDF
       val Y4M2D2Format = "yyyyMMdd"
-      val dataAToY4M2D2 = changeLocalDateFormat(dataA, LGDCommons.DatePatterns.DataAPattern, Y4M2D2Format)
+      val dataAToY4M2D2 = changeDateFormat(dataA, LGDCommons.DatePatterns.DataAPattern, Y4M2D2Format)
       val dataFineDefSubtractDurationCol = subtractDuration(cicliNdgDf("datafinedef"), Y4M2D2Format, 1)
       val leastDateSubtractDurationCol = leastDate(dataFineDefSubtractDurationCol, dataAToY4M2D2, Y4M2D2Format)
       val addDurationLeastDateCol = addDuration(leastDateSubtractDurationCol, Y4M2D2Format, numeroMesi2)

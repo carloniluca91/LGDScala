@@ -4,7 +4,7 @@ import it.carloni.luca.lgd.commons.LGDCommons
 import it.carloni.luca.lgd.spark.AbstractSparkStep
 import it.carloni.luca.lgd.schema.FrappNdgMonthlySchema
 import it.carloni.luca.lgd.spark.utils.SparkUtils.{addDuration, leastDate, subtractDuration, toIntType, toStringType}
-import it.carloni.luca.lgd.spark.utils.ScalaUtils.changeLocalDateFormat
+import it.carloni.luca.lgd.spark.utils.ScalaUtils.changeDateFormat
 import org.apache.spark.sql.functions.{col, substring}
 import org.apache.spark.sql.{Column, DataFrame}
 import org.apache.log4j.Logger
@@ -44,7 +44,7 @@ class FrappNdgMonthly(private val dataA: String, private val numeroMesi1: Int, p
     // 111
 
     val Y4M2D2Format = "yyyyMMdd"
-    val dataAFormatted = changeLocalDateFormat(dataA, LGDCommons.DatePatterns.DataAPattern, Y4M2D2Format)
+    val dataAFormatted = changeDateFormat(dataA, LGDCommons.DatePatterns.DataAPattern, Y4M2D2Format)
     val tlbcidefTlburtt: DataFrame = Seq(cicliNdgPrinc, cicliNdgColl).map((cicliNdgDf: DataFrame) => {
 
       // JOIN cicli_ndg_princ BY (codicebanca_collegato, ndg_collegato), tlburtt_filter BY (cd_istituto, ndg);
