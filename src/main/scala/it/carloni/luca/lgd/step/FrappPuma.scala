@@ -3,7 +3,6 @@ package it.carloni.luca.lgd.step
 import it.carloni.luca.lgd.commons.LGDCommons
 import it.carloni.luca.lgd.spark.AbstractSparkStep
 import it.carloni.luca.lgd.schema.FrappPumaSchema
-import it.carloni.luca.lgd.scopt.parser.DataAParser.DataAConfig
 import it.carloni.luca.lgd.spark.utils.SparkUtils.{leastDate, subtractDuration, toStringType}
 import it.carloni.luca.lgd.spark.utils.ScalaUtils.changeLocalDateFormat
 import org.apache.spark.sql.functions.{col, substring}
@@ -11,7 +10,7 @@ import org.apache.spark.sql.Column
 import org.apache.log4j.Logger
 
 
-class FrappPuma(private val dataAConfig: DataAConfig)
+class FrappPuma(private val dataA: String)
   extends AbstractSparkStep {
 
   private val logger = Logger.getLogger(getClass)
@@ -24,9 +23,6 @@ class FrappPuma(private val dataAConfig: DataAConfig)
   // STEP SCHEMAS
   private val tlbcidefPigSchema = FrappPumaSchema.tlbcidefPigSchema
   private val tlbgaranPigSchema = FrappPumaSchema.tlbgaranPigSchema
-
-  // STEP PARAMS
-  private val dataA = dataAConfig.dataA
 
   override def run(): Unit = {
 

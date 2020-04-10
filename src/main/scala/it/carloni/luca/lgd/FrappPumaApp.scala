@@ -12,7 +12,7 @@ object FrappPumaApp extends App {
 
     case Some(dataAConfig) =>
 
-      new FrappPuma(dataAConfig).run()
+      new FrappPuma(dataAConfig.dataA).run()
 
     case None => // arguments are bad, error message will have been displayed
   }

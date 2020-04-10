@@ -5,14 +5,13 @@ import it.carloni.luca.lgd.spark.AbstractSparkStep
 import it.carloni.luca.lgd.spark.utils.ScalaUtils.changeLocalDateFormat
 import it.carloni.luca.lgd.spark.utils.SparkUtils.{changeDateFormat, toIntType}
 import it.carloni.luca.lgd.schema.CicliPreviewSchema
-import it.carloni.luca.lgd.scopt.parser.DataAUfficioParser.DataAUfficioConfig
 import org.apache.spark.sql.functions.{coalesce, col, count, lit, substring, sum, when}
 import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.types.DataTypes
 import org.apache.spark.sql.Column
 import org.apache.log4j.Logger
 
-class CicliPreview(private val dataAUfficioConfig: DataAUfficioConfig)
+class CicliPreview(private val dataA: String, private val ufficio: String)
   extends AbstractSparkStep {
 
   private val logger = Logger.getLogger(getClass)
@@ -24,10 +23,6 @@ class CicliPreview(private val dataAUfficioConfig: DataAUfficioConfig)
 
   // STEP SCHEMAS
   private val fposiLoadPigSchema = CicliPreviewSchema.fposiLoadPigSchema
-
-  // STEP PARAMETERS
-  private val dataA = dataAUfficioConfig.dataA
-  private val ufficio = dataAUfficioConfig.ufficio
 
   override def run(): Unit = {
 

@@ -5,12 +5,11 @@ import it.carloni.luca.lgd.spark.AbstractSparkStep
 import it.carloni.luca.lgd.spark.utils.ScalaUtils.changeLocalDateFormat
 import it.carloni.luca.lgd.spark.utils.SparkUtils.{addDuration, leastDate, subtractDuration}
 import it.carloni.luca.lgd.schema.FanagMonthlySchema
-import it.carloni.luca.lgd.scopt.parser.DataANumeroMesi12Parser.DataANumeroMesi12Config
 import org.apache.spark.sql.functions.{col, substring, when}
 import org.apache.spark.sql.DataFrame
 import org.apache.log4j.Logger
 
-class FanagMonthly(private val dataANumeroMesi12Config: DataANumeroMesi12Config)
+class FanagMonthly(private val dataA: String, private val numeroMesi1: Int, private val numeroMesi2: Int)
   extends AbstractSparkStep {
 
   private val logger = Logger.getLogger(getClass)
@@ -25,11 +24,6 @@ class FanagMonthly(private val dataANumeroMesi12Config: DataANumeroMesi12Config)
   private val cicliNdgPigSchema = FanagMonthlySchema.cicliNdgPigSchema
   private val tlbuactLoadPigSchema = FanagMonthlySchema.tlbuactLoadPigSchema
   private val tlbudtcPigSchema = FanagMonthlySchema.tlbudtcPigSchema
-
-  // STEP PARAMETERS
-  private val dataA = dataANumeroMesi12Config.dataA
-  private val numeroMesi1 = dataANumeroMesi12Config.numeroMesi1
-  private val numeroMesi2 = dataANumeroMesi12Config.numeroMesi2
 
   override def run(): Unit = {
 

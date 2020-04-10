@@ -3,14 +3,13 @@ package it.carloni.luca.lgd.step
 import it.carloni.luca.lgd.commons.LGDCommons
 import it.carloni.luca.lgd.spark.AbstractSparkStep
 import it.carloni.luca.lgd.schema.FrappNdgMonthlySchema
-import it.carloni.luca.lgd.scopt.parser.DataANumeroMesi12Parser.DataANumeroMesi12Config
 import it.carloni.luca.lgd.spark.utils.SparkUtils.{addDuration, leastDate, subtractDuration, toIntType, toStringType}
 import it.carloni.luca.lgd.spark.utils.ScalaUtils.changeLocalDateFormat
 import org.apache.spark.sql.functions.{col, substring}
 import org.apache.spark.sql.{Column, DataFrame}
 import org.apache.log4j.Logger
 
-class FrappNdgMonthly(private val dataANumeroMesi12Config: DataANumeroMesi12Config)
+class FrappNdgMonthly(private val dataA: String, private val numeroMesi1: Int, private val numeroMesi2: Int)
   extends AbstractSparkStep {
 
   private val logger = Logger.getLogger(getClass)
@@ -23,11 +22,6 @@ class FrappNdgMonthly(private val dataANumeroMesi12Config: DataANumeroMesi12Conf
   // STEP SCHEMAS
   private val tlbcidefPigSchema = FrappNdgMonthlySchema.tlbcidefPigSchema
   private val tlburttPigSchema = FrappNdgMonthlySchema.tlburttPigSchema
-
-  // STEP PARAMETERS
-  private val dataA = dataANumeroMesi12Config.dataA
-  private val numeroMesi1 = dataANumeroMesi12Config.numeroMesi1
-  private val numeroMesi2 = dataANumeroMesi12Config.numeroMesi2
 
   override def run(): Unit = {
 

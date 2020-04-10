@@ -12,7 +12,7 @@ object MovimentiApp extends App {
 
     case Some(dataOsservazioneConfig) =>
 
-      new Movimenti(dataOsservazioneConfig).run()
+      new Movimenti(dataOsservazioneConfig.dataOsservazione).run()
 
     case None => // arguments are bad, error message will have been displayed
   }

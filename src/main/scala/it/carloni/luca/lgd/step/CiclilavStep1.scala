@@ -4,11 +4,10 @@ import it.carloni.luca.lgd.commons.LGDCommons
 import it.carloni.luca.lgd.spark.AbstractSparkStep
 import it.carloni.luca.lgd.spark.utils.ScalaUtils.changeLocalDateFormat
 import it.carloni.luca.lgd.schema.CiclilavStep1Schema
-import it.carloni.luca.lgd.scopt.parser.DataDaDataAParser.DataDaDataAConfig
 import org.apache.spark.sql.functions.{coalesce, col, lit, max, min, trim, when}
 import org.apache.log4j.Logger
 
-class CiclilavStep1(private val dataDaDataAConfig: DataDaDataAConfig)
+class CiclilavStep1(private val dataDa: String, private val dataA: String)
   extends AbstractSparkStep {
 
   private val logger = Logger.getLogger(getClass)
@@ -23,9 +22,6 @@ class CiclilavStep1(private val dataDaDataAConfig: DataDaDataAConfig)
   private val tlbcidefPigSchema = CiclilavStep1Schema.tlbcidefPigSchema
   private val tlbcraccPigSchema = CiclilavStep1Schema.tlbcraccPigSchema
 
-  // STEP PARAMETERS
-  private val dataDa = dataDaDataAConfig.dataDa
-  private val dataA = dataDaDataAConfig.dataA
 
   override def run(): Unit = {
 

@@ -4,11 +4,10 @@ import it.carloni.luca.lgd.commons.LGDCommons
 import it.carloni.luca.lgd.spark.AbstractSparkStep
 import it.carloni.luca.lgd.spark.utils.ScalaUtils
 import it.carloni.luca.lgd.schema.MovimentiSchema
-import it.carloni.luca.lgd.scopt.parser.DataOsservazioneParser.DataOsservazioneConfig
 import org.apache.spark.sql.functions.col
 import org.apache.log4j.Logger
 
-class Movimenti(private val dataOsservazioneConfig: DataOsservazioneConfig)
+class Movimenti(private val dataOsservazione: String)
   extends AbstractSparkStep {
 
   private val logger = Logger.getLogger(getClass)
@@ -21,7 +20,6 @@ class Movimenti(private val dataOsservazioneConfig: DataOsservazioneConfig)
   private val tlbmovcontaPigSchema = MovimentiSchema.tlbmovcontaPigSchema
 
   // STEP PARAMETERS
-  private val dataOsservazione = dataOsservazioneConfig.dataOsservazione
   private val dataOsservazionePattern = LGDCommons.DatePatterns.DataOsservazionePattern
   private val Y4M2D2Pattern = LGDCommons.DatePatterns.Y4M2D2Pattern
 

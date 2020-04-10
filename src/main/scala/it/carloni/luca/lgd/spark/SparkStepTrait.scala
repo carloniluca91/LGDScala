@@ -1,7 +1,7 @@
 package it.carloni.luca.lgd.spark
 
+import scala.collection.immutable.Map
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.types.StructType
 
 trait SparkStepTrait {
 

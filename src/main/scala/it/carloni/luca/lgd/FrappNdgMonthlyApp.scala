@@ -10,9 +10,13 @@ object FrappNdgMonthlyApp extends App {
 
   optionParser.parse(args, dataANumeroMesi12Config()) match {
 
-    case Some(config) =>
+    case Some(dataANumeroMesi12Config) =>
 
-      new FrappNdgMonthly(config).run()
+      val dataA = dataANumeroMesi12Config.dataA
+      val numeroMesi1 = dataANumeroMesi12Config.numeroMesi1
+      val numeroMesi2 = dataANumeroMesi12Config.numeroMesi2
+
+      new FrappNdgMonthly(dataA, numeroMesi1, numeroMesi2).run()
 
     case None => // arguments are bad, error message will have been displayed
   }

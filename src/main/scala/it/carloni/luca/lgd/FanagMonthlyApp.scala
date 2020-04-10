@@ -12,7 +12,11 @@ object FanagMonthlyApp extends App {
 
     case Some(dataANumeroMesi12Config) =>
 
-      new FanagMonthly(dataANumeroMesi12Config).run()
+      val dataA = dataANumeroMesi12Config.dataA
+      val numeroMesi1 = dataANumeroMesi12Config.numeroMesi1
+      val numeroMesi2 = dataANumeroMesi12Config.numeroMesi2
+
+      new FanagMonthly(dataA, numeroMesi1, numeroMesi2).run()
 
     case None => // arguments are bad, error message will have been displayed
   }

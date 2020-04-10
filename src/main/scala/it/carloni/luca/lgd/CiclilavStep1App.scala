@@ -12,7 +12,10 @@ object CiclilavStep1App extends App {
 
     case Some(dataDaDataAConfig) =>
 
-      new CiclilavStep1(dataDaDataAConfig).run()
+      val dataDa = dataDaDataAConfig.dataDa
+      val dataA = dataDaDataAConfig.dataA
+
+      new CiclilavStep1(dataDa, dataA).run()
 
     case None => // arguments are bad, error message will have been displayed
   }

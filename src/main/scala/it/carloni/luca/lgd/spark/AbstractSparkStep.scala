@@ -1,5 +1,7 @@
 package it.carloni.luca.lgd.spark
 
+import scala.collection.immutable.Map
+
 import it.carloni.luca.lgd.commons.LGDCommons
 import it.carloni.luca.lgd.spark.udfs.{SparkUDFs, UDFsNames}
 import org.apache.commons.configuration.{ConfigurationException, PropertiesConfiguration}
@@ -36,7 +38,7 @@ abstract class AbstractSparkStep extends SparkStepTrait {
   }
 
 
-  private def fromPigSchemaToStructType(columnMap: scala.collection.immutable.Map[String, String]): StructType = {
+  private def fromPigSchemaToStructType(columnMap: Map[String, String]): StructType = {
 
     val structFieldSeq: Seq[StructField] = (for ((key, value) <- columnMap) yield {
 
@@ -64,7 +66,9 @@ abstract class AbstractSparkStep extends SparkStepTrait {
         .getResourceAsStream("lgd.properties"))
     }
     catch {
+
       case exception: ConfigurationException =>
+
         logger.error("ConfigurationException occurred")
         logger.error(exception)
         throw exception
