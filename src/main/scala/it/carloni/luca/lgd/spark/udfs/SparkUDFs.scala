@@ -17,9 +17,9 @@ object SparkUDFs {
 
     } catch {
 
-      case NullPointerException => null
-      case DateTimeParseException => null
-      case DateTimeException => null
+      case _: NullPointerException => null
+      case _: DateTimeParseException => null
+      case _: DateTimeException => null
     }})
 
   val changeDateFormatUDF: UserDefinedFunction = udf((date: String, oldPattern: String, newPattern: String) => {
@@ -31,9 +31,9 @@ object SparkUDFs {
 
     } catch {
 
-      case NullPointerException => null
-      case DateTimeParseException => null
-      case DateTimeException => null
+      case _: NullPointerException => null
+      case _: DateTimeParseException => null
+      case _: DateTimeException => null
     }})
 
     val daysBetweenUDF: UserDefinedFunction = udf((firstDate: String, secondDate: String, commonPattern: String) => {
@@ -46,9 +46,9 @@ object SparkUDFs {
 
       } catch {
 
-      case NullPointerException => null
-      case DateTimeParseException => null
-      case DateTimeException => null
+      case _: NullPointerException => null
+      case _: DateTimeParseException => null
+      case _: DateTimeException => null
     }})
 
   val leastDateUDF: UserDefinedFunction = udf((firstDate: String, secondDate: String, commonDateFormat: String) => {
@@ -62,9 +62,9 @@ object SparkUDFs {
 
     } catch {
 
-      case NullPointerException => null
-      case DateTimeParseException => null
-      case DateTimeException => null
+      case _: NullPointerException => null
+      case _: DateTimeParseException => null
+      case _: DateTimeException => null
     }})
 
   val subtractDurationUDF: UserDefinedFunction = udf((date: String, datePattern: String, numberOfMonths: Int) => {
@@ -76,8 +76,8 @@ object SparkUDFs {
 
     } catch {
 
-      case NullPointerException => null
-      case DateTimeParseException => null
-      case DateTimeException => null
+      case _: NullPointerException => null
+      case _: DateTimeParseException => null
+      case _: DateTimeException => null
     }})
 }

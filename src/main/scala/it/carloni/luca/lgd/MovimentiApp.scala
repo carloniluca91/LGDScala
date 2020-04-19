@@ -1,7 +1,7 @@
 package it.carloni.luca.lgd
 
 import it.carloni.luca.lgd.scopt.parser.DataOsservazioneParser
-import it.carloni.luca.lgd.step.Movimenti
+import it.carloni.luca.lgd.spark.step.Movimenti
 
 object MovimentiApp extends App {
 

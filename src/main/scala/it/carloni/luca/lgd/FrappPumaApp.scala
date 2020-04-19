@@ -1,7 +1,7 @@
 package it.carloni.luca.lgd
 
 import it.carloni.luca.lgd.scopt.parser.DataAParser
-import it.carloni.luca.lgd.step.FrappPuma
+import it.carloni.luca.lgd.spark.step.FrappPuma
 
 object FrappPumaApp extends App {
 

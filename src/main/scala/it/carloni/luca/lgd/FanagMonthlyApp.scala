@@ -1,7 +1,7 @@
 package it.carloni.luca.lgd
 
 import it.carloni.luca.lgd.scopt.parser.DataANumeroMesi12Parser
-import it.carloni.luca.lgd.step.FanagMonthly
+import it.carloni.luca.lgd.spark.step.FanagMonthly
 
 object FanagMonthlyApp extends App {
 

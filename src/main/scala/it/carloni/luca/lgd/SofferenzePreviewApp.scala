@@ -1,7 +1,7 @@
 package it.carloni.luca.lgd
 
 import it.carloni.luca.lgd.scopt.parser.DataAUfficioParser
-import it.carloni.luca.lgd.step.SofferenzePreview
+import it.carloni.luca.lgd.spark.step.SofferenzePreview
 
 object SofferenzePreviewApp extends App {
 

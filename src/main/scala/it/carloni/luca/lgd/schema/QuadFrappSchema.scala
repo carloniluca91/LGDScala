@@ -79,8 +79,7 @@ object QuadFrappSchema {
     "d0075addebitiinsosp" -> "chararray",
     "codicebanca_princ" -> "chararray",
     "ndgprincipale" -> "chararray",
-    "datainiziodef" -> "chararray",
-  )
+    "datainiziodef" -> "chararray")
 
   val oldFrappLoadPigSchema: Map[String, String] = Map(
 
@@ -156,8 +155,7 @@ object QuadFrappSchema {
     "CDFISC" -> "chararray",
     "D6998_GAR_TITOLI" -> "chararray",
     "D6970_GAR_PERS" -> "chararray",
-    "ADDEBITI_IN_SOSP" -> "chararray"
-  )
+    "ADDEBITI_IN_SOSP" -> "chararray")
 
   val fcollPigSchema: Map[String, String] = Map(
 
@@ -169,6 +167,5 @@ object QuadFrappSchema {
     "ISTITUTO_COLLEGATO" -> "chararray",
     "NDG_COLLEGATO" -> "chararray",
     "DATA_COLLEGAMENTO" -> "chararray",
-    "CUMULO" -> "chararray"
-  )
+    "CUMULO" -> "chararray")
 }

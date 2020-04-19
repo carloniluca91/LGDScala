@@ -1,6 +1,6 @@
 package it.carloni.luca.lgd
 
-import it.carloni.luca.lgd.step.RaccInc
+import it.carloni.luca.lgd.spark.step.RaccInc
 
 object RaccIncApp extends App {
 

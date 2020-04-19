@@ -39,6 +39,5 @@ object QuadFcollCicliSchema {
     "attivobilseg" -> "chararray",
     "fatturbilseg" -> "chararray",
     "ndg_coll" -> "chararray",
-    "cd_isti_coll" -> "chararray",
-  )
+    "cd_isti_coll" -> "chararray" )
 }

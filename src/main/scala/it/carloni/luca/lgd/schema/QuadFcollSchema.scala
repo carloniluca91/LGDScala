@@ -11,8 +11,7 @@ object QuadFcollSchema {
     "ndg_COLL" -> "chararray",
     "data_inizio_DEF" -> "chararray",
     "data_collegamento" -> "chararray",
-    "pri" -> "chararray",
-  )
+    "pri" -> "chararray" )
 
   val oldFposiLoadPigSchema: Map[String, String] = Map(
 
@@ -24,7 +23,5 @@ object QuadFcollSchema {
     "codicebanca" -> "chararray",
     "ndgprincipale" -> "chararray",
     "flagincristrut" -> "chararray",
-    "cumulo" -> "chararray"
-  )
-
+    "cumulo" -> "chararray")
 }

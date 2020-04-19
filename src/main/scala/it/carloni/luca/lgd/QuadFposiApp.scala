@@ -1,7 +1,7 @@
 package it.carloni.luca.lgd
 
 import it.carloni.luca.lgd.scopt.parser.UfficioParser
-import it.carloni.luca.lgd.step.QuadFposi
+import it.carloni.luca.lgd.spark.step.QuadFposi
 
 object QuadFposiApp extends App {
 
