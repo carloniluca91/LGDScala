@@ -13,6 +13,7 @@ object DataDaDataAParser {
     // DATA_DA
     opt[String](OptionNaming.DataDaLongOption)
       .required()
+      .text("parametro $data_da")
       .validate((inputDataDa: String) => if (OptionValidation.validateDataDa(inputDataDa)) success
         else failure(OptionNaming.DataDaFailedValidationMessage + inputDataDa + ")"))
       .action((inputDataDa, config) => config.copy(dataDa = inputDataDa))
@@ -20,6 +21,7 @@ object DataDaDataAParser {
     // DATA_A
     opt[String](OptionNaming.DataALongOption)
       .required()
+      .text("parametro $data_a")
       .validate((inputDataA: String) => if (OptionValidation.validateDataA(inputDataA)) success
       else failure(OptionNaming.DataAFailedValidationMessage + inputDataA + ")"))
       .action((inputDataA, config) => config.copy(dataA = inputDataA))

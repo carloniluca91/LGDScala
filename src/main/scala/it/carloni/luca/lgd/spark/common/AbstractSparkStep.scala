@@ -20,13 +20,15 @@ abstract class AbstractSparkStep extends SparkStepTrait {
   private final val csvInputDelimiter: String = LGDCommons.CSV.InputDelimiter
   private final val csvOutputDelimiter: String = LGDCommons.CSV.OutputDelimiter
 
-  logger.debug(s"csvFormat : $csvFormat")
-  logger.debug(s"csvInputDelimiter: $csvInputDelimiter")
-  logger.debug(s"csvOutputDelimiter:  $csvOutputDelimiter")
+  logger.info(s"csvFormat : $csvFormat")
+  logger.info(s"csvInputDelimiter: $csvInputDelimiter")
+  logger.info(s"csvOutputDelimiter:  $csvOutputDelimiter")
 
   private def getSparkSessionWithUDFs: SparkSession = {
 
     val sparkSession = SparkSession.builder().getOrCreate()
+
+    logger.info("Successfully initialized SparkSession")
 
     // UDF REGISTRATION
     sparkSession.udf.register(UDFsNames.AddDurationUDFName, SparkUDFs.addDurationUDF)
@@ -34,9 +36,11 @@ abstract class AbstractSparkStep extends SparkStepTrait {
     sparkSession.udf.register(UDFsNames.DaysBetweenUDFName, SparkUDFs.daysBetweenUDF)
     sparkSession.udf.register(UDFsNames.LeastDateUDFName, SparkUDFs.leastDateUDF)
     sparkSession.udf.register(UDFsNames.SubtractDurationUDFName, SparkUDFs.subtractDurationUDF)
+
+    logger.info("Successfully registered user-defined functions (UDFs)")
+
     sparkSession
   }
-
 
   private def fromPigSchemaToStructType(columnMap: Map[String, String]): StructType = {
 

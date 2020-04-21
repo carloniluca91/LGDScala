@@ -15,7 +15,7 @@ lazy val lgdScala = (project in file("."))
     libraryDependencies += ("org.apache.spark" %% "spark-sql" % sparkVersion % "provided"),
     libraryDependencies += ("com.github.scopt" %% "scopt" % "3.3.0"),
 
-    assemblyJarName in assembly := s"${name.value}-${version.value}.jar",
+    assemblyJarName in assembly := s"${name.value}_${version.value}.jar",
     assemblyMergeStrategy in assembly := {
       case PathList("META-INF", xs @ _*) => MergeStrategy.discard
       case x =>

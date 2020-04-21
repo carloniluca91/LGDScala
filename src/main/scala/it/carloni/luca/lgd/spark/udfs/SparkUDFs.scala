@@ -1,83 +1,111 @@
 package it.carloni.luca.lgd.spark.udfs
 
-import java.time.{DateTimeException, LocalDate}
-import java.time.format.{DateTimeFormatter, DateTimeParseException}
-
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
+import scala.util.{Failure, Success, Try}
 
 object SparkUDFs {
 
   val addDurationUDF: UserDefinedFunction = udf((date: String, datePattern: String, numberOfMonths: Int) => {
 
-    try {
+    Option(date) match {
 
-      val formatter = DateTimeFormatter.ofPattern(datePattern)
-      LocalDate.parse(date, formatter).plusMonths(numberOfMonths).format(formatter)
+      case None => null
+      case Some(_) =>
 
-    } catch {
+        val formatter = DateTimeFormatter.ofPattern(datePattern)
+        val dateWithAddedDuration: Try[String] = Try(LocalDate.parse(date, formatter)
+          .plusMonths(numberOfMonths)
+          .format(formatter))
+        dateWithAddedDuration match {
 
-      case _: NullPointerException => null
-      case _: DateTimeParseException => null
-      case _: DateTimeException => null
-    }})
+          case Failure(_) => null
+          case Success(value) => value
+        }}})
 
   val changeDateFormatUDF: UserDefinedFunction = udf((date: String, oldPattern: String, newPattern: String) => {
 
-    try {
+    Option(date) match {
 
-      LocalDate.parse(date, DateTimeFormatter.ofPattern(oldPattern))
-        .format(DateTimeFormatter.ofPattern(newPattern))
+      case None => null
+      case Some(_) =>
 
-    } catch {
+        val dateInNewFormat: Try[String] = Try(LocalDate.parse(date, DateTimeFormatter.ofPattern(oldPattern))
+          .format(DateTimeFormatter.ofPattern(newPattern)))
+        dateInNewFormat match {
 
-      case _: NullPointerException => null
-      case _: DateTimeParseException => null
-      case _: DateTimeException => null
-    }})
+          case Failure(_) => null
+          case Success(value) => value
+        }}})
 
-    val daysBetweenUDF: UserDefinedFunction = udf((firstDate: String, secondDate: String, commonPattern: String) => {
+  val daysBetweenUDF: UserDefinedFunction = udf((firstDate: String, secondDate: String, commonPattern: String) => {
 
-    try {
+    val optionFirstDate: Option[String] = Option(firstDate)
+    val optionSecondDate: Option[String] = Option(secondDate)
+    val nullAsLong: Long = null.asInstanceOf[Long]
 
-      val dateTimeFormatter = DateTimeFormatter.ofPattern(commonPattern)
-      val secondDateInEpochDays = LocalDate.parse(secondDate, dateTimeFormatter).toEpochDay
-      Math.abs(LocalDate.parse(firstDate, dateTimeFormatter).minusDays(secondDateInEpochDays).toEpochDay)
+    (optionFirstDate, optionSecondDate) match {
 
-      } catch {
+      case (Some(_), Some(_)) =>
 
-      case _: NullPointerException => null
-      case _: DateTimeParseException => null
-      case _: DateTimeException => null
+        val commonDateFormatter = DateTimeFormatter.ofPattern(commonPattern)
+        val firstDateLocalDate: Try[LocalDate] = Try(LocalDate.parse(firstDate, commonDateFormatter))
+        val secondDateLocalDate: Try[LocalDate] = Try(LocalDate.parse(secondDate, commonDateFormatter))
+
+        firstDateLocalDate match {
+
+          case Failure(_) => nullAsLong
+          case Success(firstDateValue) => secondDateLocalDate match {
+
+            case Failure(_) => nullAsLong
+            case Success(secondDateValue) => Math.abs(firstDateValue
+              .minusDays(secondDateValue.toEpochDay)
+              .toEpochDay)
+          }}
+
+      case (_, _) => nullAsLong
     }})
 
   val leastDateUDF: UserDefinedFunction = udf((firstDate: String, secondDate: String, commonDateFormat: String) => {
 
-    try {
+    val optionFirstDate: Option[String] = Option(firstDate)
+    val optionSecondDate: Option[String] = Option(secondDate)
+    (optionFirstDate, optionSecondDate) match {
 
-      val commonDateFormatter = DateTimeFormatter.ofPattern(commonDateFormat)
-      val firstDateLocalDate = LocalDate.parse(firstDate, commonDateFormatter)
-      val secondDateLocalDate = LocalDate.parse(secondDate, commonDateFormatter)
-      if (firstDateLocalDate.isBefore(secondDateLocalDate)) firstDate else secondDate
+      case (Some(_), Some(_)) =>
 
-    } catch {
+        val commonDateFormatter = DateTimeFormatter.ofPattern(commonDateFormat)
+        val firstDateLocalDate: Try[LocalDate] = Try(LocalDate.parse(firstDate, commonDateFormatter))
+        val secondDateLocalDate: Try[LocalDate] = Try(LocalDate.parse(secondDate, commonDateFormatter))
+        firstDateLocalDate match {
 
-      case _: NullPointerException => null
-      case _: DateTimeParseException => null
-      case _: DateTimeException => null
+          case Failure(_) => null
+          case Success(firstDateValue) => secondDateLocalDate match {
+
+            case Failure(_) => null
+            case Success(secondDateValue) => if (firstDateValue.isBefore(secondDateValue)) firstDate else secondDate
+          }}
+
+      case (_, _) => null
     }})
 
   val subtractDurationUDF: UserDefinedFunction = udf((date: String, datePattern: String, numberOfMonths: Int) => {
 
-    try {
+    Option(date) match {
 
-      val formatter = DateTimeFormatter.ofPattern(datePattern)
-      LocalDate.parse(date, formatter).minusMonths(numberOfMonths).format(formatter)
+      case None => null
+      case Some(_) =>
 
-    } catch {
+        val formatter = DateTimeFormatter.ofPattern(datePattern)
+        val dateWithSubtractedDuration: Try[String] = Try(LocalDate.parse(date, formatter)
+          .minusMonths(numberOfMonths)
+          .format(formatter))
 
-      case _: NullPointerException => null
-      case _: DateTimeParseException => null
-      case _: DateTimeException => null
-    }})
+        dateWithSubtractedDuration match {
+
+          case Failure(_) => null
+          case Success(value) => value
+        }}})
 }
