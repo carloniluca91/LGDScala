@@ -21,16 +21,17 @@ class CicliPreview(private val dataA: String, private val ufficio: String)
   private val fposiGen2OutputPath = getPropertyValue("cicli.preview.fposi.gen2")
   private val fposiSintGen2OutputPath = getPropertyValue("cicli.preview.fposi.sint.gen2")
 
+  logger.info(s"fposiOutdirCsvPath: $fposiOutdirCsvPath")
+  logger.info(s"fposiGen2OutputPath: $fposiGen2OutputPath")
+  logger.info(s"fposiSintGen2OutputPath: $fposiSintGen2OutputPath")
+
   // STEP SCHEMAS
   private val fposiLoadPigSchema = CicliPreviewSchema.fposiLoadPigSchema
 
   override def run(): Unit = {
 
-    logger.debug(s"fposiOutdirCsvPath: $fposiOutdirCsvPath")
-    logger.debug(s"fposiGen2OutputPath: $fposiGen2OutputPath")
-    logger.debug(s"fposiSintGen2OutputPath: $fposiSintGen2OutputPath")
-    logger.debug(s"dataA: $dataA")
-    logger.debug(s"ufficio: $ufficio")
+    logger.info(s"Step parameters -> (dataA: $dataA)")
+    logger.info(s"Step parameters -> (ufficio: $ufficio)")
 
     val fposiLoad = readCsvFromPathUsingSchema(fposiOutdirCsvPath, fposiLoadPigSchema)
 

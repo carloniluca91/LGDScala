@@ -20,6 +20,11 @@ class FanagMonthly(private val dataA: String, private val numeroMesi1: Int, priv
   private val tlbudtcCsvPath = getPropertyValue("fanag.monthly.tlbudtc.path.csv")
   private val fanagOutputPath = getPropertyValue("fanag.monthly.fanag.out")
 
+  logger.info(s"cicliNdgCsvPath: $cicliNdgCsvPath")
+  logger.info(s"tlbuactCsvPath: $tlbuactCsvPath")
+  logger.info(s"tlbudtcCsvPath: $tlbudtcCsvPath")
+  logger.info(s"fanagOutputPath: $fanagOutputPath")
+
   // STEP SCHEMAS
   private val cicliNdgPigSchema = FanagMonthlySchema.cicliNdgPigSchema
   private val tlbuactLoadPigSchema = FanagMonthlySchema.tlbuactLoadPigSchema
@@ -27,13 +32,9 @@ class FanagMonthly(private val dataA: String, private val numeroMesi1: Int, priv
 
   override def run(): Unit = {
 
-    logger.debug(s"cicliNdgCsvPath: $cicliNdgCsvPath")
-    logger.debug(s"tlbuactCsvPath: $tlbuactCsvPath")
-    logger.debug(s"tlbudtcCsvPath: $tlbudtcCsvPath")
-    logger.debug(s"fanagOutputPath: $fanagOutputPath")
-    logger.debug(s"dataA: $dataA")
-    logger.debug(s"numeroMesi1: $numeroMesi1")
-    logger.debug(s"numeroMesi2: $numeroMesi2")
+    logger.info(s"Step parameters -> (dataA: $dataA)")
+    logger.info(s"Step parameters -> (numeroMesi1: $numeroMesi1)")
+    logger.info(s"Step parameters -> (numeroMesi2: $numeroMesi2)")
 
     val cicliNdg = readCsvFromPathUsingSchema(cicliNdgCsvPath, cicliNdgPigSchema)
 
@@ -42,6 +43,9 @@ class FanagMonthly(private val dataA: String, private val numeroMesi1: Int, priv
 
     val cicliNdgPrinc = cicliNdg.filter(col("cd_collegamento").isNull)
     val cicliNdgColl = cicliNdg.filter(col("cd_collegamento").isNotNull)
+
+    logger.info(s"cicliNdgPrinc.count: ${cicliNdgPrinc.count}")
+    logger.info(s"cicliNdgColl.count: ${cicliNdgColl.count}")
 
     val tlbuact = readCsvFromPathUsingSchema(tlbuactCsvPath, tlbuactLoadPigSchema)
       .selectExpr("dt_riferimento", "cd_istituto", "ndg", "tp_ndg", "intestazione", "cd_fiscale",
@@ -94,6 +98,8 @@ class FanagMonthly(private val dataA: String, private val numeroMesi1: Int, priv
 							 ,cicli_ndg_princ::codicebanca  as codicebanca
 							 ,cicli_ndg_princ::ndgprincipale  as ndgprincipale
        */
+
+      logger.info(s"count for join: ${tlbuact.join(cicliNdgDf, joinConditionCol).count()}")
 
       tlbuact.join(cicliNdgDf, joinConditionCol)
         .filter(filterConditionCol)

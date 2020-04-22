@@ -18,16 +18,19 @@ class CiclilavStep1(private val dataDa: String, private val dataA: String)
   private val ciclilavStep1GenOutputPath = getPropertyValue("ciclilav.step1.out.csv")
   private val ciclilavStep1FileCraccOutputhPath = getPropertyValue("ciclilav.step1.filecracc")
 
+  logger.info(s"tlbcidefCsvPath: $tlbcidefCsvPath")
+  logger.info(s"tlbcraccCsvPath: $tlbcraccCsvPath")
+  logger.info(s"ciclilavStep1GenOutputPath: $ciclilavStep1GenOutputPath")
+  logger.info(s"ciclilavStep1FileCraccOutputhPath: $ciclilavStep1FileCraccOutputhPath")
+
   // STEP SCHEMAS
   private val tlbcidefPigSchema = CiclilavStep1Schema.tlbcidefPigSchema
   private val tlbcraccPigSchema = CiclilavStep1Schema.tlbcraccPigSchema
 
   override def run(): Unit = {
 
-    logger.debug(s"tlbcidefCsvPath: $tlbcidefCsvPath")
-    logger.debug(s"tlbcraccCsvPath: $tlbcraccCsvPath")
-    logger.debug(s"ciclilavStep1GenOutputPath: $ciclilavStep1GenOutputPath")
-    logger.debug(s"ciclilavStep1FileCraccOutputhPath: $ciclilavStep1FileCraccOutputhPath")
+    logger.info(s"Step parameters -> (dataDa: $dataDa)")
+    logger.info(s"Step parameters ->, (dataA: $dataA)")
 
     val tlbcidef = readCsvFromPathUsingSchema(tlbcidefCsvPath, tlbcidefPigSchema)
 
@@ -71,7 +74,7 @@ class CiclilavStep1(private val dataDa: String, private val dataA: String)
         min(tlbcidefUnpivot("datainiziosoff")).as("datainiziosoff"))
 
     val dataALowerBound = if (dataAInt <= 20150731) 20150731 else dataAInt
-    logger.debug(s"dataALowerBound: $dataALowerBound")
+    logger.info(s"dataALowerBound: $dataALowerBound")
 
     val tlbcracc = readCsvFromPathUsingSchema(tlbcraccCsvPath, tlbcraccPigSchema)
       .filter(col("data_rif") <= dataALowerBound)
