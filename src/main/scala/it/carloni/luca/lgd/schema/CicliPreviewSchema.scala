@@ -1,10 +1,10 @@
 package it.carloni.luca.lgd.schema
 
-import scala.collection.immutable.Map
+import scala.collection.mutable
 
 object CicliPreviewSchema {
 
-  val fposiLoadPigSchema: Map[String, String] = Map(
+  val fposiLoadPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap(
 
     "codicebanca" -> "chararray",
     "ndgprincipale" -> "chararray",

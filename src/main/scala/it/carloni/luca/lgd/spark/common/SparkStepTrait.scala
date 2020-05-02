@@ -1,15 +1,9 @@
 package it.carloni.luca.lgd.spark.common
 
-import org.apache.spark.sql.DataFrame
+import it.carloni.luca.lgd.scopt.config.StepConfig
 
-import scala.collection.immutable.Map
+trait SparkStepTrait[T <: StepConfig] {
 
-trait SparkStepTrait {
-
-  def run(): Unit
-
-  protected def readCsvFromPathUsingSchema(csvPath: String, pigSchema: Map[String, String]): DataFrame
-
-  protected def writeDataFrameAsCsvToPath(dataFrame: DataFrame, csvPath: String)
+  def run(t: T): Unit
 
 }

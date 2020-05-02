@@ -1,14 +1,16 @@
 package it.carloni.luca.lgd.spark.step
 
-import it.carloni.luca.lgd.commons.LGDCommons
 import it.carloni.luca.lgd.spark.utils.ScalaUtils.changeDateFormat
 import it.carloni.luca.lgd.schema.CiclilavStep1Schema
+import it.carloni.luca.lgd.scopt.config.DtDaDtAConfig
 import it.carloni.luca.lgd.spark.common.AbstractSparkStep
+import it.carloni.luca.lgd.spark.common.SparkEnums.DateFormats
 import org.apache.spark.sql.functions.{coalesce, col, lit, max, min, trim, when}
 import org.apache.log4j.Logger
 
-class CiclilavStep1(private val dataDa: String, private val dataA: String)
-  extends AbstractSparkStep {
+import scala.collection.mutable
+
+class CiclilavStep1 extends AbstractSparkStep[DtDaDtAConfig] {
 
   private val logger = Logger.getLogger(getClass)
 
@@ -18,19 +20,21 @@ class CiclilavStep1(private val dataDa: String, private val dataA: String)
   private val ciclilavStep1GenOutputPath = getPropertyValue("ciclilav.step1.out.csv")
   private val ciclilavStep1FileCraccOutputhPath = getPropertyValue("ciclilav.step1.filecracc")
 
-  logger.info(s"tlbcidefCsvPath: $tlbcidefCsvPath")
-  logger.info(s"tlbcraccCsvPath: $tlbcraccCsvPath")
-  logger.info(s"ciclilavStep1GenOutputPath: $ciclilavStep1GenOutputPath")
-  logger.info(s"ciclilavStep1FileCraccOutputhPath: $ciclilavStep1FileCraccOutputhPath")
+  logger.info(s"ciclilav.step1.tlbcidef.csv: $tlbcidefCsvPath")
+  logger.info(s"ciclilav.step1.tlbcracc.csv: $tlbcraccCsvPath")
+  logger.info(s"ciclilav.step1.out.csv: $ciclilavStep1GenOutputPath")
+  logger.info(s"ciclilav.step1.filecracc: $ciclilavStep1FileCraccOutputhPath")
 
   // STEP SCHEMAS
-  private val tlbcidefPigSchema = CiclilavStep1Schema.tlbcidefPigSchema
-  private val tlbcraccPigSchema = CiclilavStep1Schema.tlbcraccPigSchema
+  private val tlbcidefPigSchema: mutable.LinkedHashMap[String, String] = CiclilavStep1Schema.tlbcidefPigSchema
+  private val tlbcraccPigSchema: mutable.LinkedHashMap[String, String] = CiclilavStep1Schema.tlbcraccPigSchema
 
-  override def run(): Unit = {
+  def run(dataDaDataAConfig: DtDaDtAConfig): Unit = {
 
-    logger.info(s"Step parameters -> (dataDa: $dataDa)")
-    logger.info(s"Step parameters ->, (dataA: $dataA)")
+    logger.info(dataDaDataAConfig.toString)
+
+    val dataDa: String = dataDaDataAConfig.dataDa
+    val dataA: String = dataDaDataAConfig.dataA
 
     val tlbcidef = readCsvFromPathUsingSchema(tlbcidefCsvPath, tlbcidefPigSchema)
 
@@ -41,20 +45,21 @@ class CiclilavStep1(private val dataDa: String, private val dataA: String)
      (TRIM(status_ingresso)=='SOFF'?dt_ingresso_status:null) as datainiziosoff
      */
 
-    val statusIngressoColTrimCol = trim(tlbcidef("status_ingresso"))
-    val tlbcidefDataInizioPdCol = when(statusIngressoColTrimCol === "PASTDUE", tlbcidef("dt_ingresso_status")).otherwise(null).as("datainiziopd")
-    val tlbcidefDataInizioIncCol = when(statusIngressoColTrimCol.isin("INCA", "INADPRO"), tlbcidef("dt_ingresso_status")).otherwise(null).alias("datainizioinc")
-    val tlbcidefDataInizioRistruttCol = when(statusIngressoColTrimCol === "RISTR", tlbcidef("dt_ingresso_status")).otherwise(null).as("datainizioristrutt")
-    val tlbcidefDataInizioSoffCol = when(statusIngressoColTrimCol === "SOFF", tlbcidef("dt_ingresso_status")).otherwise(null).as("datainiziosoff")
+    val statusIngressoColTrimCol = trim(col("status_ingresso"))
+    val tlbcidefDataInizioPdCol = when(statusIngressoColTrimCol === "PASTDUE", col("dt_ingresso_status")).otherwise(null).as("datainiziopd")
+    val tlbcidefDataInizioIncCol = when(statusIngressoColTrimCol.isin("INCA", "INADPRO"), col("dt_ingresso_status")).otherwise(null).alias("datainizioinc")
+    val tlbcidefDataInizioRistruttCol = when(statusIngressoColTrimCol === "RISTR", col("dt_ingresso_status")).otherwise(null).as("datainizioristrutt")
+    val tlbcidefDataInizioSoffCol = when(statusIngressoColTrimCol === "SOFF", col("dt_ingresso_status")).otherwise(null).as("datainiziosoff")
 
     // PARSE BOTH $data_da AND $data_a IN ORDER TO FIT WITH COLUMN dt_inizio_ciclo
-    val Y4M2D2Format = LGDCommons.DatePatterns.Y4M2D2Pattern
-    val dataDaInt: Int = changeDateFormat(dataDa, LGDCommons.DatePatterns.DataDaPattern, Y4M2D2Format).toInt
-    val dataAInt: Int = changeDateFormat(dataA, LGDCommons.DatePatterns.DataAPattern, Y4M2D2Format).toInt
+    val Y4M2D2Format = DateFormats.Y4M2D2Format.toString
+    val dataAFormat = DateFormats.DataAFormat.toString
+    val dataDaInt: Int = changeDateFormat(dataDa, dataAFormat, Y4M2D2Format).toInt
+    val dataAInt: Int = changeDateFormat(dataA, dataAFormat, Y4M2D2Format).toInt
 
     val tlbcidefUnpivot = tlbcidef
-      .filter(tlbcidef("dt_inizio_ciclo").between(dataDaInt, dataAInt))
-      .select(tlbcidef("cd_isti"), tlbcidef("ndg_principale"), tlbcidef("dt_inizio_ciclo"), tlbcidef("dt_fine_ciclo"),
+      .filter(col("dt_inizio_ciclo").between(dataDaInt, dataAInt))
+      .select(col("cd_isti"), col("ndg_principale"), col("dt_inizio_ciclo"), col("dt_fine_ciclo"),
         tlbcidefDataInizioPdCol, tlbcidefDataInizioIncCol, tlbcidefDataInizioRistruttCol, tlbcidefDataInizioSoffCol)
 
     /*
@@ -79,6 +84,11 @@ class CiclilavStep1(private val dataDa: String, private val dataA: String)
     val tlbcracc = readCsvFromPathUsingSchema(tlbcraccCsvPath, tlbcraccPigSchema)
       .filter(col("data_rif") <= dataALowerBound)
 
+    // CLONE TLBCRACC TO AVOID ANALYSIS EXCEPTION
+    val tlbraccClone = tlbcracc.toDF()
+      .withColumnRenamed("cd_isti", "cd_isti_clone")
+      .withColumnRenamed("ndg", "ndg_clone")
+
     // JOIN tlbcidef_max BY (cd_isti, ndg_principale) LEFT, tlbcracc BY (cd_isti, ndg);
     val cicliRacc1JoinConditionCol = (tlbcidefMax("cd_isti") === tlbcracc("cd_isti")) && (tlbcidefMax("ndg_principale") === tlbcracc("ndg"))
     val cicliRacc1 = tlbcidefMax.join(tlbcracc, cicliRacc1JoinConditionCol, "left")
@@ -90,17 +100,17 @@ class CiclilavStep1(private val dataDa: String, private val dataA: String)
     // (tlbcracc::ndg     is not null ? tlbcracc::ndg     : cicli_racc_1::ndg_principale) as ndg_ced
     // (tlbcracc::data_rif is not null ? tlbcracc::data_rif : cicli_racc_1::dt_inizio_ciclo) as dt_rif_cracc
 
-    val cdIstiCedCol = coalesce(tlbcracc("cd_isti"), cicliRacc1("cd_isti")).as("cd_isti_ced")
-    val ndgCedCol = coalesce(tlbcracc("ndg"), cicliRacc1("ndg_principale")).as("ndg_ced")
-    val dtRifCraccCol = coalesce(tlbcracc("data_rif"), cicliRacc1("dt_inizio_ciclo")).as("dt_rif_cracc")
+    val cdIstiCedCol = coalesce(tlbraccClone("cd_isti_clone"), cicliRacc1("cd_isti")).as("cd_isti_ced")
+    val ndgCedCol = coalesce(tlbraccClone("ndg_clone"), cicliRacc1("ndg_principale")).as("ndg_ced")
+    val dtRifCraccCol = coalesce(tlbraccClone("data_rif"), cicliRacc1("dt_inizio_ciclo")).as("dt_rif_cracc")
 
-    val ciclilavStep1Gen = cicliRacc1.join(tlbcracc, Seq("cod_raccordo", "data_rif"), "left")
+    val ciclilavStep1Gen = cicliRacc1.join(tlbraccClone, Seq("cod_raccordo", "data_rif"), "left")
       .select(cicliRacc1("cd_isti"), cicliRacc1("ndg_principale"), cicliRacc1("dt_inizio_ciclo"), cicliRacc1("dt_fine_ciclo"),
         cicliRacc1("datainiziopd"), cicliRacc1("datainizioristrutt"), cicliRacc1("datainizioinc"), cicliRacc1("datainiziosoff"),
         lit(0).as("progr"), cdIstiCedCol, ndgCedCol)
       .distinct()
 
-    val ciclilavStep1FileCracc = cicliRacc1.join(tlbcracc, Seq("cod_raccordo", "data_rif"), "left")
+    val ciclilavStep1FileCracc = cicliRacc1.join(tlbraccClone, Seq("cod_raccordo", "data_rif"), "left")
       .select(cicliRacc1("cd_isti"), cicliRacc1("ndg_principale"), cicliRacc1("dt_inizio_ciclo"), cicliRacc1("dt_fine_ciclo"),
         cdIstiCedCol, ndgCedCol, dtRifCraccCol)
       .distinct()

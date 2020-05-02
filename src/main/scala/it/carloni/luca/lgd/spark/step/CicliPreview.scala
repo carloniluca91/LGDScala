@@ -1,18 +1,19 @@
 package it.carloni.luca.lgd.spark.step
 
-import it.carloni.luca.lgd.commons.LGDCommons
 import it.carloni.luca.lgd.spark.utils.ScalaUtils.changeDateFormat
 import it.carloni.luca.lgd.spark.utils.SparkUtils.{changeDateFormatUDF, toIntType}
 import it.carloni.luca.lgd.schema.CicliPreviewSchema
-import it.carloni.luca.lgd.spark.common.AbstractSparkStep
+import it.carloni.luca.lgd.scopt.config.DtAUfficioConfig
+import it.carloni.luca.lgd.spark.common.{AbstractSparkStep, SparkEnums}
 import org.apache.spark.sql.functions.{coalesce, col, count, lit, substring, sum, when}
 import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.types.DataTypes
-import org.apache.spark.sql.Column
+import org.apache.spark.sql.{Column, DataFrame}
 import org.apache.log4j.Logger
 
-class CicliPreview(private val dataA: String, private val ufficio: String)
-  extends AbstractSparkStep {
+import scala.collection.mutable
+
+class CicliPreview extends AbstractSparkStep[DtAUfficioConfig] {
 
   private val logger = Logger.getLogger(getClass)
 
@@ -21,26 +22,29 @@ class CicliPreview(private val dataA: String, private val ufficio: String)
   private val fposiGen2OutputPath = getPropertyValue("cicli.preview.fposi.gen2")
   private val fposiSintGen2OutputPath = getPropertyValue("cicli.preview.fposi.sint.gen2")
 
-  logger.info(s"fposiOutdirCsvPath: $fposiOutdirCsvPath")
-  logger.info(s"fposiGen2OutputPath: $fposiGen2OutputPath")
-  logger.info(s"fposiSintGen2OutputPath: $fposiSintGen2OutputPath")
+  logger.info(s"cicli.preview.fposi.outdir.csv: $fposiOutdirCsvPath")
+  logger.info(s"cicli.preview.fposi.gen2: $fposiGen2OutputPath")
+  logger.info(s"cicli.preview.fposi.sint.gen2: $fposiSintGen2OutputPath")
 
   // STEP SCHEMAS
-  private val fposiLoadPigSchema = CicliPreviewSchema.fposiLoadPigSchema
+  private val fposiLoadPigSchema: mutable.LinkedHashMap[String, String] = CicliPreviewSchema.fposiLoadPigSchema
 
-  override def run(): Unit = {
+  def run(dtAUfficioConfig: DtAUfficioConfig): Unit = {
 
-    logger.info(s"Step parameters -> (dataA: $dataA)")
-    logger.info(s"Step parameters -> (ufficio: $ufficio)")
+    logger.info(dtAUfficioConfig.toString)
+
+    val dataA: String = dtAUfficioConfig.dataA
+    val ufficio: String = dtAUfficioConfig.ufficio
 
     val fposiLoad = readCsvFromPathUsingSchema(fposiOutdirCsvPath, fposiLoadPigSchema)
 
     // ,ToString(ToDate('$data_a','yyyyMMdd'),'yyyy-MM-dd') as datarif
-    val dataRifCol = lit(changeDateFormat(dataA, LGDCommons.DatePatterns.DataAPattern, "yyyy-MM-dd")).as("datarif")
+    val dataAFormat: String = SparkEnums.DateFormats.DataAFormat.toString
+    val dataRifCol = lit(changeDateFormat(dataA, dataAFormat, "yyyy-MM-dd")).as("datarif")
 
     // (naturagiuridica_segm != 'CO' AND segmento in ('01','02','03','21')?'IM': (segmento == '10'?'PR':'AL')) as segmento_calc
     val segmentoCalcCol = when((col("naturagiuridica_segm") =!= "CO") && col("segmento").isin("01", "02", "03", "21"),
-    "IM").otherwise(when(col("segmento") === "10", "PR").otherwise("AL")).as("segmento_calc")
+      "IM").otherwise(when(col("segmento") === "10", "PR").otherwise("AL")).as("segmento_calc")
 
     // ( datasofferenza is null?'N':'S') as ciclo_soff
     val cicloSoffCol = when(col("datasofferenza").isNull, "N").otherwise("N").as("ciclo_soff")
@@ -104,13 +108,11 @@ class CicliPreview(private val dataA: String, private val ufficio: String)
     val Y4M2D2format = "yyyyMMdd"
     val Y4_M2_D2Format = "yyyy-MM-dd"
 
-    val fposiGen2 = fposiBase
-      .withColumn("datainiziodef", changeDateFormatUDF(col("datainiziodef"), Y4M2D2format, Y4_M2_D2Format))
-      .withColumn("datafinedef", changeDateFormatUDF(col("datafinedef"), Y4M2D2format, Y4_M2_D2Format))
-      .withColumn("datainiziopd", changeDateFormatUDF(col("datainiziopd"), Y4M2D2format, Y4_M2_D2Format))
-      .withColumn("datainizioinc", changeDateFormatUDF(col("datainizioinc"), Y4M2D2format, Y4_M2_D2Format))
-      .withColumn("datainizioristrutt", changeDateFormatUDF(col("datainizioristrutt"), Y4M2D2format, Y4_M2_D2Format))
-      .withColumn("datasofferenza", changeDateFormatUDF(col("datasofferenza"), Y4M2D2format, Y4_M2_D2Format))
+    val fposiGen2 = Seq("datainiziodef", "datafinedef", "datainiziopd", "datainizioinc", "datainizioristrutt", "datasofferenza")
+      .foldLeft(fposiBase)({
+        (df: DataFrame, columnName: String) =>
+          df.withColumn(columnName, changeDateFormatUDF(col(columnName), Y4M2D2format, Y4_M2_D2Format))
+      })
       .withColumn("totaccordatodatdef", sum(col("totaccordatodatdef")).over(fposiGen2WindowSpec).cast(DataTypes.DoubleType))
       .withColumn("totutilizzdatdef", sum(col("totutilizzdatdef")).over(fposiGen2WindowSpec).cast(DataTypes.DoubleType))
       .drop(col("flag_aperto"))

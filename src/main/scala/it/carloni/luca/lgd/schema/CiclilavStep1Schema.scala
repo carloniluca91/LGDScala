@@ -1,10 +1,10 @@
 package it.carloni.luca.lgd.schema
 
-import scala.collection.immutable.Map
+import scala.collection.mutable
 
 object CiclilavStep1Schema {
 
-  val tlbcidefPigSchema: Map[String, String] = Map(
+  val tlbcidefPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap(
 
     "cd_isti" -> "chararray",
     "ndg_principale" -> "chararray",
@@ -19,7 +19,7 @@ object CiclilavStep1Schema {
     "indi_impr_priv" -> "chararray"
   )
 
-  val tlbcraccPigSchema: Map[String, String] = Map(
+  val tlbcraccPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap(
 
     "data_rif" -> "int",
     "cd_isti" -> "chararray",

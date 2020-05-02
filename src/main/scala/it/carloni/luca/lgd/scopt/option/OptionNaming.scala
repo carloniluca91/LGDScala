@@ -1,20 +1,25 @@
 package it.carloni.luca.lgd.scopt.option
 
-import it.carloni.luca.lgd.commons.LGDCommons
+import it.carloni.luca.lgd.spark.common.SparkEnums.DateFormats
+
 
 object OptionNaming {
 
+  val StepNameShortOption: Char = 's'
+  val StepNameLongOption = "step-name"
+  val StepNameOptionDescription = "job Spark da eseguire"
+
   val DataDaLongOption = "data-da"
-  val DataDaOptionDescription = s"parametro $$data_da (formato ${LGDCommons.DatePatterns.DataDaPattern})"
-  val DataDaFailedValidationMessage = s"parametro $$data_da non conforme (atteso ${LGDCommons.DatePatterns.DataDaPattern}, ricevuto "
+  val DataDaOptionDescription = s"parametro $$data_da (formato ${DateFormats.DataDaFormat.toString})"
+  val DataDaFailedValidationMessage = s"parametro $$data_da non conforme (atteso ${DateFormats.DataDaFormat.toString}, ricevuto "
 
   val DataALongOption = "data-a"
-  val DataAOptionDescription = s"parametro $$data_a (formato ${LGDCommons.DatePatterns.DataAPattern})"
-  val DataAFailedValidationMessage = s"parametro $$data_a non conforme (atteso ${LGDCommons.DatePatterns.DataAPattern}, ricevuto "
+  val DataAOptionDescription = s"parametro $$data_a (formato ${DateFormats.DataAFormat.toString})"
+  val DataAFailedValidationMessage = s"parametro $$data_a non conforme (atteso ${DateFormats.DataAFormat.toString}, ricevuto "
 
   val DataOsservazioneLongOption = "data-osservazione"
-  val DataOsservazioneOptionDescription = s"parametro $$data_osservazione (formato ${LGDCommons.DatePatterns.DataOsservazionePattern})"
-  val DataOsservazioneFailedValidationMessage = s"parametro $$data_a non conforme (atteso ${LGDCommons.DatePatterns.DataAPattern}, ricevuto "
+  val DataOsservazioneOptionDescription = s"parametro $$data_osservazione (formato ${DateFormats.DataOsservazioneFormat.toString})"
+  val DataOsservazioneFailedValidationMessage = s"parametro $$data_a non conforme (atteso ${DateFormats.DataOsservazioneFormat.toString}, ricevuto "
 
   val UfficioLongOption = "ufficio"
   val UfficioOptionDescription = "parametro $ufficio"
@@ -26,6 +31,6 @@ object OptionNaming {
   val NumeroMesi2Description = "parametro $numero_mesi_2"
 
   val PeriodoLongOption = "periodo"
-  val PeriodoOptionDescription = s"parametro $$periodo (formato ${LGDCommons.DatePatterns.PeriodoPattern}"
+  val PeriodoOptionDescription = s"parametro $$periodo (formato ${DateFormats.PeriodoFormat.toString}"
 
 }
