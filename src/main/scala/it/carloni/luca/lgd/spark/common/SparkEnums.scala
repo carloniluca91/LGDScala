@@ -31,6 +31,7 @@ object SparkEnums {
 
     val CiclilavStep1: Value = Value("CICLILAV_STEP_1")
     val CicliPreview: Value = Value("CICLI_PREVIEW")
+    val FanagMonthly: Value = Value("FANAG_MONTHLY")
 
   }
 }

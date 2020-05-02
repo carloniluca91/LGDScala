@@ -13,21 +13,34 @@ case class DtOsservazioneConfig(dataOsservazione: String = null) extends StepCon
 case class DtAUfficioConfig(ufficio: String = null,
                             dataA: String = null) extends StepConfig {
 
-  override def toString: String =
+  override def toString: String = {
 
-    s"${OptionNaming.DataAOptionDescription}: $dataA, " +
-      s"${OptionNaming.UfficioOptionDescription}: $ufficio"
+    val dataDescription = OptionNaming.DataAOptionDescription
+    val ufficioDescription = OptionNaming.UfficioOptionDescription
+    s"$dataDescription: $dataA, $ufficioDescription: $ufficio"
+  }
 }
 
 case class DtDaDtAConfig(dataDa: String = null,
                          dataA: String = null) extends StepConfig {
 
-  override def toString: String =
+  override def toString: String = {
 
-    s"${OptionNaming.DataDaOptionDescription}: $dataDa, " +
-      s"${OptionNaming.DataAOptionDescription}: $dataA"
+    val dataDaDescription = OptionNaming.DataDaOptionDescription
+    val dataADescription = OptionNaming.DataAOptionDescription
+    s"$dataDaDescription: $dataDa, $dataADescription: $dataA"
+  }
 }
 
 case class DtANumeroMesi12Config(dataA: String = null,
                                  numeroMesi1: Int = 0,
-                                 numeroMesi2: Int = 0) extends StepConfig
+                                 numeroMesi2: Int = 0) extends StepConfig {
+
+  override def toString: String = {
+
+    val dataADescription = OptionNaming.DataAOptionDescription
+    val numeroMesi1Description = OptionNaming.NumeroMesi1Description
+    val numeroMesi2Description = OptionNaming.NumeroMesi2Description
+    s"$dataADescription: $dataA, $numeroMesi1Description: $numeroMesi1, $numeroMesi2Description: $numeroMesi2"
+  }
+}

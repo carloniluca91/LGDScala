@@ -53,6 +53,25 @@ class StepRunner {
 
           case None => // arguments are bad, error message will have been displayed
         }
+
+      case StepNames.FanagMonthly =>
+
+        import it.carloni.luca.lgd.scopt.config.DtANumeroMesi12Config
+        import it.carloni.luca.lgd.spark.step.FanagMonthly
+
+        logger.info(s"Matched step ${stepNameValue.toString}")
+
+        val dtANumeroMesi12Config = DtANumeroMesi12Config
+        val optionParser = StepParser.dtANumeroMesi1And2Parser
+        optionParser.parse(args, dtANumeroMesi12Config()) match {
+
+          case Some(value) =>
+
+            logger.info(s"Successfully parsed arguments for step $stepNameToUpperCase")
+            new FanagMonthly().run(value)
+
+          case None => // arguments are bad, error message will have been displayed
+        }
     }
   }
 }

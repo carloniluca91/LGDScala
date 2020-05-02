@@ -1,10 +1,10 @@
 package it.carloni.luca.lgd.schema
 
-import scala.collection.immutable.Map
+import scala.collection.mutable
 
 object FanagMonthlySchema {
 
-  val cicliNdgPigSchema: Map[String, String] = Map(
+  val cicliNdgPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap (
 
     "codicebanca" -> "chararray",
     "ndgprincipale" -> "chararray",
@@ -32,7 +32,7 @@ object FanagMonthlySchema {
     "dt_rif_udct" -> "int"
   )
 
-  val tlbuactLoadPigSchema: Map[String, String] = Map(
+  val tlbuactLoadPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap (
 
     "cd_istituto" -> "chararray",
     "ndg" -> "chararray",
@@ -70,7 +70,7 @@ object FanagMonthlySchema {
     "n160_cod_ateco" -> "chararray"
   )
 
-  val tlbudtcPigSchema: Map[String, String] = Map(
+  val tlbudtcPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap (
 
     "cd_istituto" -> "chararray",
     "ndg" -> "chararray",
