@@ -1,10 +1,10 @@
 package it.carloni.luca.lgd.schema
 
-import scala.collection.immutable.Map
+import scala.collection.mutable
 
 object FpasperdSchema {
 
-  val tlbcidefLoadPigSchema: Map[String, String] = Map(
+  val tlbcidefLoadPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap(
 
     "codicebanca" -> "chararray",
     "ndgprincipale" -> "chararray",
@@ -31,7 +31,7 @@ object FpasperdSchema {
     "cd_fiscale" -> "chararray"
   )
 
-  val tlbpaspeFilterPigSchema: Map[String, String] = Map(
+  val tlbpaspeFilterPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap(
 
     "cd_istituto" -> "chararray",
     "ndg" -> "chararray",
@@ -40,7 +40,7 @@ object FpasperdSchema {
     "importo" -> "chararray"
   )
 
-  val tlbpaspeossPigSchema: Map[String, String] = Map(
+  val tlbpaspeossPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap(
 
     "cd_istituto" -> "chararray",
     "ndg" -> "chararray",

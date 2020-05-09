@@ -72,6 +72,17 @@ class StepRunner {
 
           case None => // arguments are bad, error message will have been displayed
         }
+
+      case StepNames.Fpasperd =>
+
+        import it.carloni.luca.lgd.scopt.config.EmptyConfig
+        import it.carloni.luca.lgd.spark.step.Fpasperd
+
+        logger.info(s"Matched step ${stepNameValue.toString}")
+
+        new Fpasperd().run(new EmptyConfig)
+
+      case _ => logger.warn(s"Unable to match step $stepNameToUpperCase. Thus, no step will be run")
     }
   }
 }

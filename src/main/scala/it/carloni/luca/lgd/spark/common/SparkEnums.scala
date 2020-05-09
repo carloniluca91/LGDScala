@@ -4,27 +4,27 @@ object SparkEnums {
 
   object CSV extends Enumeration {
 
-    val InputDelimiter: CSV.Value = Value(";")
-    val OutputDelimiter: CSV.Value = Value(";")
-    val SparkCsvFormat: CSV.Value = Value("com.databricks.spark.csv")
+    val InputDelimiter: Value = Value(";")
+    val OutputDelimiter: Value = Value(";")
+    val SparkCsvFormat: Value = Value("com.databricks.spark.csv")
   }
 
   object DateFormats extends Enumeration {
 
-    val DataAFormat: DateFormats.Value = Value("yyyyMMdd")
-    val DataDaFormat: DateFormats.Value = Value("yyyyMMdd")
-    val DataOsservazioneFormat: DateFormats.Value = Value("yyyyMMdd")
-    val PeriodoFormat: DateFormats.Value = Value("yyyy-MM")
-    val Y4M2D2Format: DateFormats.Value = Value("yyyyMMdd")
+    val DataAFormat: Value = Value("yyyyMMdd")
+    val DataDaFormat: Value = Value("yyyyMMdd")
+    val DataOsservazioneFormat: Value = Value("yyyyMMdd")
+    val PeriodoFormat: Value = Value("yyyy-MM")
+    val Y4M2D2Format: Value = Value("yyyyMMdd")
   }
 
   object UDFsNames extends Enumeration {
 
-    val AddDurationUDFName: UDFsNames.Value = Value("addDuration")
-    val ChangeDateFormatUDFName: UDFsNames.Value = Value("changeDateFormat")
-    val DaysBetweenUDFName: UDFsNames.Value = Value("daysBetween")
-    val LeastDateUDFName: UDFsNames.Value = Value("leastDate")
-    val SubtractDurationUDFName: UDFsNames.Value = Value("subtractDuration")
+    val AddDurationUDFName: Value = Value("addDuration")
+    val ChangeDateFormatUDFName: Value = Value("changeDateFormat")
+    val DaysBetweenUDFName: Value = Value("daysBetween")
+    val LeastDateUDFName: Value = Value("leastDate")
+    val SubtractDurationUDFName: Value = Value("subtractDuration")
   }
 
   object StepNames extends Enumeration {
@@ -32,6 +32,6 @@ object SparkEnums {
     val CiclilavStep1: Value = Value("CICLILAV_STEP_1")
     val CicliPreview: Value = Value("CICLI_PREVIEW")
     val FanagMonthly: Value = Value("FANAG_MONTHLY")
-
+    val Fpasperd: Value = Value("FPASPERD")
   }
 }
