@@ -1,7 +1,9 @@
 package it.carloni.luca.lgd
 
+import it.carloni.luca.lgd.scopt.config._
 import it.carloni.luca.lgd.scopt.parser.StepParser
 import it.carloni.luca.lgd.spark.common.SparkEnums.StepNames
+import it.carloni.luca.lgd.spark.step._
 import org.apache.log4j.Logger
 
 class StepRunner {
@@ -14,12 +16,10 @@ class StepRunner {
 
     val stepNameToUpperCase: String = stepName.toUpperCase
     val stepNameValue: StepNames.Value = StepNames.withName(stepNameToUpperCase)
+
     stepNameValue match {
 
       case StepNames.CiclilavStep1 =>
-
-        import it.carloni.luca.lgd.spark.step.CiclilavStep1
-        import it.carloni.luca.lgd.scopt.config.DtDaDtAConfig
 
         logger.info(s"Matched step ${stepNameValue.toString}")
 
@@ -37,9 +37,6 @@ class StepRunner {
 
       case StepNames.CicliPreview =>
 
-        import it.carloni.luca.lgd.spark.step.CicliPreview
-        import it.carloni.luca.lgd.scopt.config.DtAUfficioConfig
-
         logger.info(s"Matched step ${stepNameValue.toString}")
 
         val dtAUfficioConfig = DtAUfficioConfig
@@ -55,9 +52,6 @@ class StepRunner {
         }
 
       case StepNames.FanagMonthly =>
-
-        import it.carloni.luca.lgd.scopt.config.DtANumeroMesi12Config
-        import it.carloni.luca.lgd.spark.step.FanagMonthly
 
         logger.info(s"Matched step ${stepNameValue.toString}")
 
@@ -75,12 +69,25 @@ class StepRunner {
 
       case StepNames.Fpasperd =>
 
-        import it.carloni.luca.lgd.scopt.config.EmptyConfig
-        import it.carloni.luca.lgd.spark.step.Fpasperd
-
         logger.info(s"Matched step ${stepNameValue.toString}")
 
         new Fpasperd().run(new EmptyConfig)
+
+      case StepNames.FrappNdgMonthly =>
+
+        logger.info(s"Matched step ${stepNameValue.toString}")
+
+        val dtANumeroMesi12Config = DtANumeroMesi12Config
+        val optionParser = StepParser.dtANumeroMesi1And2Parser
+        optionParser.parse(args, dtANumeroMesi12Config()) match {
+
+          case Some(value) =>
+
+            logger.info(s"Successfully parsed arguments for step $stepNameToUpperCase")
+            new FrappNdgMonthly().run(value)
+
+          case None => // arguments are bad, error message will have been displayed
+        }
 
       case _ => logger.warn(s"Unable to match step $stepNameToUpperCase. Thus, no step will be run")
     }

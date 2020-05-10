@@ -4,7 +4,7 @@ import it.carloni.luca.lgd.schema.FpasperdSchema
 import it.carloni.luca.lgd.scopt.config.EmptyConfig
 import it.carloni.luca.lgd.spark.common.AbstractSparkStep
 import it.carloni.luca.lgd.spark.utils.SparkUtils.{addDurationUDF, daysBetweenUDF, toIntType}
-import org.apache.spark.sql.functions.{col, first, lit, substring, when}
+import org.apache.spark.sql.functions.{coalesce, col, first, lit, substring, when}
 import org.apache.spark.sql.{Column, DataFrame}
 import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.types.DataTypes
@@ -197,14 +197,14 @@ class Fpasperd extends AbstractSparkStep[EmptyConfig] {
     // 344
 
     // JOIN fpasperd_out_distinct BY (cd_istituto, ndg, datacont) FULL OUTER, tlbpaspeoss BY (cd_istituto, ndg, datacont)
-    val paspePaspeossGenDistJoinCondition = (fpasperdOutDistinct("cd_istituto") === tlbpaspeoss("cd_istituto_")) &&
-      (fpasperdOutDistinct("ndg_") === tlbpaspeoss("ndg_")) &&
-      (fpasperdOutDistinct("datacont") === tlbpaspeoss("datacont_"))
+    val paspePaspeossGenDistJoinCondition: Column = Seq("cd_istituto", "ndg", "datacont")
+      .map((columnName: String) => fpasperdOutDistinct(columnName) === tlbpaspeoss(columnName.concat("_")))
+      .reduce(_ && _)
 
     // ( fpasperd_out_distinct::cd_istituto is not null? ( tlbpaspeoss::cd_istituto is not null?
     // tlbpaspeoss::cd_istituto : fpasperd_out_distinct::cd_istituto ) : tlbpaspeoss::cd_istituto ) as cd_istituto
-    val cdIstitutoCol = when(fpasperdOutDistinct("cd_istituto").isNotNull, when(tlbpaspeoss("cd_istituto_").isNotNull, tlbpaspeoss("cd_istituto_"))
-      .otherwise(fpasperdOutDistinct("cd_istituto"))).otherwise(tlbpaspeoss("cd_istituto_")).as("cd_istituto")
+    val cdIstitutoCol = when(fpasperdOutDistinct("cd_istituto").isNotNull, coalesce(tlbpaspeoss("cd_istituto"), fpasperdOutDistinct("cd_istituto")))
+      .otherwise(tlbpaspeoss("cd_istituto_")).as("cd_istituto")
 
     // ,( fpasperd_out_distinct::cd_istituto is not null? ( tlbpaspeoss::cd_istituto is not null?
     // tlbpaspeoss::ndg : fpasperd_out_distinct::ndg ) : tlbpaspeoss::ndg ) as ndg

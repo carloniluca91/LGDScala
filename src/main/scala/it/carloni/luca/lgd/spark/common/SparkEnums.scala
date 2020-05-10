@@ -33,5 +33,6 @@ object SparkEnums {
     val CicliPreview: Value = Value("CICLI_PREVIEW")
     val FanagMonthly: Value = Value("FANAG_MONTHLY")
     val Fpasperd: Value = Value("FPASPERD")
+    val FrappNdgMonthly: Value = Value("FRAPP_NDG_MONTHLY")
   }
 }
