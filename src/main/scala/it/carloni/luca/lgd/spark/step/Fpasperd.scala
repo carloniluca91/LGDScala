@@ -94,15 +94,14 @@ class Fpasperd extends AbstractSparkStep[EmptyConfig] {
 
     // JOIN fpasperd_other_gen BY (cd_istituto, ndg, datacont) LEFT, fpasperd_between_out BY (cd_istituto, ndg, datacont);
     // FILTER BY fpasperd_between_out::cd_istituto IS NULL
-    val fpasperdOtherOut = fpasperdOtherGen.join(fpasperdBetweenOut, Seq("cd_istituto", "ndg", "datacont"), "left")
-      .filter(fpasperdBetweenOut("cd_istituto").isNull)
-      .select(fpasperdOtherGen("cd_istituto"), fpasperdOtherGen("ndg"), fpasperdOtherGen("datacont"), fpasperdOtherGen("causale"),
-        fpasperdOtherGen("importo"), fpasperdOtherGen("codicebanca"), fpasperdOtherGen("ndgprincipale"), fpasperdOtherGen("datainiziodef"))
+
+    val fpasperdOtherOut = fpasperdOtherGen.join(fpasperdBetweenOut, Seq("cd_istituto", "ndg", "datacont"), "left_anti")
 
     // 170
 
     // ... = JOIN tlbpaspe_filter BY (cd_istituto, ndg) LEFT, tlbcidef BY (codicebanca_collegato, ndg_collegato);
     // FILTER ... BY tlbcidef::codicebanca IS NULL
+
     val fpasperdNullOut = tlbpaspeFilter.join(tlbcidef, tlbcidefTlbpaspeFilterJoinConditionCol, "left_anti")
       .select(tlbpaspeFilter("cd_istituto"), tlbpaspeFilter("ndg"), tlbpaspeFilter("datacont"), tlbpaspeFilter("causale"),
         tlbpaspeFilter("importo"), getNullColumn("codicebanca"), getNullColumn("ndgprincipale"),
@@ -157,10 +156,9 @@ class Fpasperd extends AbstractSparkStep[EmptyConfig] {
     // 265
 
     // JOIN princip_fpasperd_other_gen BY (cd_istituto, ndg, datacont) LEFT, princip_fpasperd_between_out BY (cd_istituto, ndg, datacont);
-    val principFpasperdOtherOut = principFpasperdOtherGen.join(principFpasperdBetweenOut, Seq("cd_istituto", "ndg", "datacont"), "left")
-      .select(principFpasperdOtherGen("cd_istituto"), principFpasperdOtherGen("ndg"), principFpasperdOtherGen("datacont"),
-        principFpasperdOtherGen("causale"), principFpasperdOtherGen("importo"), principFpasperdOtherGen("codicebanca"),
-        principFpasperdOtherGen("ndgprincipale"), principFpasperdOtherGen("datainiziodef"))
+    // FILTER BY princip_fpasperd_between_out::cd_istituto IS NULL
+
+    val principFpasperdOtherOut = principFpasperdOtherGen.join(principFpasperdBetweenOut, Seq("cd_istituto", "ndg", "datacont"), "left_anti")
 
     // 288
 
@@ -203,7 +201,7 @@ class Fpasperd extends AbstractSparkStep[EmptyConfig] {
 
     // ( fpasperd_out_distinct::cd_istituto is not null? ( tlbpaspeoss::cd_istituto is not null?
     // tlbpaspeoss::cd_istituto : fpasperd_out_distinct::cd_istituto ) : tlbpaspeoss::cd_istituto ) as cd_istituto
-    val cdIstitutoCol = when(fpasperdOutDistinct("cd_istituto").isNotNull, coalesce(tlbpaspeoss("cd_istituto"), fpasperdOutDistinct("cd_istituto")))
+    val cdIstitutoCol = when(fpasperdOutDistinct("cd_istituto").isNotNull, coalesce(tlbpaspeoss("cd_istituto_"), fpasperdOutDistinct("cd_istituto")))
       .otherwise(tlbpaspeoss("cd_istituto_")).as("cd_istituto")
 
     // ,( fpasperd_out_distinct::cd_istituto is not null? ( tlbpaspeoss::cd_istituto is not null?
