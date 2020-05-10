@@ -50,7 +50,8 @@ class FrappNdgMonthly extends AbstractSparkStep[DtANumeroMesi12Config] {
     val Y4M2D2Format = "yyyyMMdd"
     val dataAFormat: String = SparkEnums.DateFormats.DataAFormat.toString
     val dataAFormatted = changeDateFormat(dataA, dataAFormat, Y4M2D2Format)
-    val tlbcidefTlburtt: DataFrame = Seq(cicliNdgPrinc, cicliNdgColl).map((cicliNdgDf: DataFrame) => {
+    val tlbcidefTlburtt: DataFrame = Seq(cicliNdgPrinc, cicliNdgColl)
+      .map((cicliNdgDf: DataFrame) => {
 
       // JOIN cicli_ndg_princ BY (codicebanca_collegato, ndg_collegato), tlburtt_filter BY (cd_istituto, ndg);
       // OIN  cicli_ndg_coll BY (codicebanca_collegato, ndg_collegato), tlburtt_filter BY (cd_istituto, ndg);
@@ -72,13 +73,17 @@ class FrappNdgMonthly extends AbstractSparkStep[DtANumeroMesi12Config] {
       val addDurationLeastDateCol = addDurationUDF(leastDateDataASubtractDurationCol, Y4M2D2Format, numeroMesi2)
 
       // SUBSTRING( (chararray)dt_riferimento,0,6 ) <= SUBSTRING(ToString(AddDuration(...)), 0, 6)
-      val dtRiferimentoAddDurationFilterCol = toStringAndSubtring06(tlburttFilter("dt_riferimento")) <=
-        toStringAndSubtring06(addDurationLeastDateCol)
+      val dtRiferimentoAddDurationFilterCol = subtring06(tlburttFilter("dt_riferimento")) <=
+        subtring06(addDurationLeastDateCol)
 
       cicliNdgDf.join(tlburttFilter, joinConditionCol)
         .filter(dtRIferimentoDataInizioDefFilterCol && dtRiferimentoAddDurationFilterCol)
-        .select()
-
+        .select(cicliNdgDf("codicebanca"), cicliNdgDf("ndgprincipale"), cicliNdgDf("codicebanca_collegato"), cicliNdgDf("ndg_collegato"),
+          cicliNdgDf("datainiziodef"), cicliNdgDf("datafinedef"), tlburttFilter("cd_istituto"), tlburttFilter("ndg"), tlburttFilter("sportello"),
+          tlburttFilter("conto"), tlburttFilter("dt_riferimento"), tlburttFilter("conto_esteso"), tlburttFilter("forma_tecnica"),
+          tlburttFilter("dt_accensione"), tlburttFilter("dt_estinzione"), tlburttFilter("dt_scadenza"), tlburttFilter("tp_ammortamento"),
+          tlburttFilter("tp_rapporto"), tlburttFilter("period_liquid"), tlburttFilter("cd_prodotto_ris"), tlburttFilter("durata_originaria"),
+          tlburttFilter("divisa"), tlburttFilter("durata_residua"), tlburttFilter("tp_contr_rapp"))
     })
       .reduce(_.union(_))
       .distinct()
@@ -86,5 +91,5 @@ class FrappNdgMonthly extends AbstractSparkStep[DtANumeroMesi12Config] {
     writeDataFrameAsCsvToPath(tlbcidefTlburtt, tlbcidefTlburttOutputPath)
   }
 
-  private def toStringAndSubtring06(column: Column): Column = substring(toStringType(column), 0, 6)
+  private def subtring06(column: Column): Column = substring(toStringType(column), 0, 6)
 }
