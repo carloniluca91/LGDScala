@@ -43,8 +43,8 @@ class FrappPuma extends AbstractSparkStep[DtAConfig] {
     // 71
 
     // JOIN  tlbgaran BY (cd_istituto, ndg), cicli_ndg_princ BY (codicebanca_collegato, ndg_collegato);
-    val tlbcidefTlbgaranPrincJoinCondition = (tlbgaran("cd_istituto") === cicliNdgPrinc("ndg")) &&
-      (tlbgaran("codicebanca_collegato") === cicliNdgPrinc("ndg_collegato"))
+    val tlbcidefTlbgaranPrincJoinCondition = (tlbgaran("cd_istituto") === cicliNdgPrinc("codicebanca_collegato")) &&
+      (tlbgaran("ndg") === cicliNdgPrinc("ndg_collegato"))
 
     // FILTER BY ToDate( (chararray)dt_riferimento,'yyyyMMdd') >= ToDate( (chararray)datainiziodef,'yyyyMMdd' )
     // and SUBSTRING( (chararray)dt_riferimento,0,6 ) <= SUBSTRING( (chararray)LeastDate( (int)ToString(SubtractDuration(ToDate((chararray)datafinedef,'yyyyMMdd' ),'P1M'),'yyyyMMdd') ,$data_a),0,6 );
@@ -53,11 +53,11 @@ class FrappPuma extends AbstractSparkStep[DtAConfig] {
     val dataAPattern: String = SparkEnums.DateFormats.DataAFormat.toString
     val YYYYMMDDFormat: String = SparkEnums.DateFormats.Y4M2D2Format.toString
     val dataAFormatted = changeDateFormat(dataA, dataAPattern, YYYYMMDDFormat)
-    val dataFineDefSubtractDurationCol = subtractDurationUDF(toStringType(cicliNdgPrinc("datainiziodef")), YYYYMMDDFormat, 1)
+    val dataFineDefSubtractDurationCol = subtractDurationUDF(toStringType(cicliNdgPrinc("datafinedef")), YYYYMMDDFormat, 1)
     val leastDateSubtractDurationCol = leastDateUDF(dataFineDefSubtractDurationCol, dataAFormatted, YYYYMMDDFormat)
 
     val tlbcidefTlbgaranPrincFilterCondition = (tlbgaran("dt_riferimento") >= cicliNdgPrinc("datainiziodef")) &&
-      (toStringAndSubstring(tlbgaran("dt_riferimento")) <= toStringAndSubstring(leastDateSubtractDurationCol))
+      (substring06(tlbgaran("dt_riferimento")) <= substring06(leastDateSubtractDurationCol))
 
     val tlbcidefTlbgaranPrinc = tlbgaran.join(cicliNdgPrinc, tlbcidefTlbgaranPrincJoinCondition)
       .filter(tlbcidefTlbgaranPrincFilterCondition)
@@ -79,6 +79,9 @@ class FrappPuma extends AbstractSparkStep[DtAConfig] {
 
     // 118
 
+    logger.info(s"PRINC COUNT %s: ${tlbcidefTlbgaranPrinc.count}")
+    logger.info(s"COLL COUNT %s ${tlbcidefTlbgaranColl.count}")
+
     val cicliAll = tlbcidefTlbgaranPrinc
       .union(tlbcidefTlbgaranColl)
       .distinct
@@ -86,5 +89,5 @@ class FrappPuma extends AbstractSparkStep[DtAConfig] {
     writeDataFrameAsCsvToPath(cicliAll, frappPumaOutputPath)
   }
 
-  private def toStringAndSubstring(column: Column): Column = substring(toStringType(column), 0, 6)
+  private def substring06(column: Column): Column = substring(toStringType(column), 0, 6)
 }

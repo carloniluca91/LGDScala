@@ -89,6 +89,22 @@ class StepRunner {
           case None => // arguments are bad, error message will have been displayed
         }
 
+      case StepNames.FrappPuma =>
+
+        logger.info(s"Matched step ${stepNameValue.toString}")
+
+        val dtAConfig = DtAConfig
+        val optionParser = StepParser.dtAParser
+        optionParser.parse(args, dtAConfig()) match {
+
+          case Some(value) =>
+
+            logger.info(s"Successfully parsed arguments for step $stepNameToUpperCase")
+            new FrappPuma().run(value)
+
+          case None => // arguments are bad, error message will have been displayed
+        }
+
       case _ => logger.warn(s"Unable to match step $stepNameToUpperCase. Thus, no step will be run")
     }
   }
