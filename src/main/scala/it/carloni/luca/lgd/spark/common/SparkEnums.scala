@@ -1,5 +1,7 @@
 package it.carloni.luca.lgd.spark.common
 
+import it.carloni.luca.lgd.spark.common.SparkEnums.StepNames
+
 object SparkEnums {
 
   object CSV extends Enumeration {
@@ -34,5 +36,6 @@ object SparkEnums {
     val FanagMonthly: Value = Value("FANAG_MONTHLY")
     val Fpasperd: Value = Value("FPASPERD")
     val FrappNdgMonthly: Value = Value("FRAPP_NDG_MONTHLY")
+    val FrappPuma: Value = Value("FRAPP_PUMA")
   }
 }

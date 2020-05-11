@@ -71,7 +71,7 @@ class StepRunner {
 
         logger.info(s"Matched step ${stepNameValue.toString}")
 
-        new Fpasperd().run(new EmptyConfig)
+        new Fpasperd().run(new NoValueConfig())
 
       case StepNames.FrappNdgMonthly =>
 

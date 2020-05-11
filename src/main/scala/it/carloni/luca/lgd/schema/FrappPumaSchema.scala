@@ -1,10 +1,10 @@
 package it.carloni.luca.lgd.schema
 
-import scala.collection.immutable.Map
+import scala.collection.mutable
 
 object FrappPumaSchema {
 
-  val tlbcidefPigSchema: Map[String, String] = Map(
+  val tlbcidefPigSchema: mutable.LinkedHashMap[String, String] =  mutable.LinkedHashMap(
 
     "codicebanca" -> "chararray",
     "ndgprincipale" -> "chararray",
@@ -32,7 +32,7 @@ object FrappPumaSchema {
     "dt_rif_udct" -> "int"
   )
 
-  val tlbgaranPigSchema: Map[String, String] = Map(
+  val tlbgaranPigSchema:  mutable.LinkedHashMap[String, String] =  mutable.LinkedHashMap(
 
     "cd_istituto" -> "chararray",
     "ndg" -> "chararray",

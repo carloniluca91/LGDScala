@@ -4,11 +4,18 @@ import it.carloni.luca.lgd.scopt.option.OptionNaming
 
 sealed abstract class StepConfig
 
-class EmptyConfig extends StepConfig
+class NoValueConfig extends StepConfig
 
 case class UfficioConfig(ufficio: String = null) extends StepConfig
 
-case class DtAConfig(dataA: String = null) extends StepConfig
+case class DtAConfig(dataA: String = null) extends StepConfig {
+
+  override def toString: String = {
+
+    val dataADescription: String = OptionNaming.DataAOptionDescription
+    s"$dataADescription: $dataA"
+  }
+}
 
 case class DtOsservazioneConfig(dataOsservazione: String = null) extends StepConfig
 

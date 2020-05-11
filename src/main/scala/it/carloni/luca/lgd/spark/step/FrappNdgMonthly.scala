@@ -61,7 +61,7 @@ class FrappNdgMonthly extends AbstractSparkStep[DtANumeroMesi12Config] {
 
       // FILTER BY ToDate((chararray)dt_riferimento,'yyyyMMdd') >= SubtractDuration(ToDate((chararray)datainiziodef,'yyyyMMdd'),'$numero_mesi_1')
 
-      val dtRIferimentoDataInizioDefFilterCol = tlburttFilter("dt_riferimento") >=
+      val dtRiferimentoDataInizioDefFilterCol = tlburttFilter("dt_riferimento") >=
         toIntType(subtractDurationUDF(cicliNdgDf("datainiziodef"), Y4M2D2Format, numeroMesi1))
 
       // SubtractDuration(ToDate((chararray)datafinedef,'yyyyMMdd' ),'P1M')
@@ -73,11 +73,10 @@ class FrappNdgMonthly extends AbstractSparkStep[DtANumeroMesi12Config] {
       val addDurationLeastDateCol = addDurationUDF(leastDateDataASubtractDurationCol, Y4M2D2Format, numeroMesi2)
 
       // SUBSTRING( (chararray)dt_riferimento,0,6 ) <= SUBSTRING(ToString(AddDuration(...)), 0, 6)
-      val dtRiferimentoAddDurationFilterCol = subtring06(tlburttFilter("dt_riferimento")) <=
-        subtring06(addDurationLeastDateCol)
+      val dtRiferimentoAddDurationFilterCol = subtring06(tlburttFilter("dt_riferimento")) <= subtring06(addDurationLeastDateCol)
 
       cicliNdgDf.join(tlburttFilter, joinConditionCol)
-        .filter(dtRIferimentoDataInizioDefFilterCol && dtRiferimentoAddDurationFilterCol)
+        .filter(dtRiferimentoDataInizioDefFilterCol && dtRiferimentoAddDurationFilterCol)
         .select(cicliNdgDf("codicebanca"), cicliNdgDf("ndgprincipale"), cicliNdgDf("codicebanca_collegato"), cicliNdgDf("ndg_collegato"),
           cicliNdgDf("datainiziodef"), cicliNdgDf("datafinedef"), tlburttFilter("cd_istituto"), tlburttFilter("ndg"), tlburttFilter("sportello"),
           tlburttFilter("conto"), tlburttFilter("dt_riferimento"), tlburttFilter("conto_esteso"), tlburttFilter("forma_tecnica"),
