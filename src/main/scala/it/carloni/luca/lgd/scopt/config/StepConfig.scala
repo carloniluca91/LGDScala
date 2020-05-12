@@ -17,7 +17,14 @@ case class DtAConfig(dataA: String = null) extends StepConfig {
   }
 }
 
-case class DtOsservazioneConfig(dataOsservazione: String = null) extends StepConfig
+case class DtOsservazioneConfig(dataOsservazione: String = null) extends StepConfig {
+
+  override def toString: String = {
+
+    val dataOsservazioneDescription: String = OptionNaming.DataOsservazioneOptionDescription
+    s"$dataOsservazioneDescription: $dataOsservazione"
+  }
+}
 
 case class DtAUfficioConfig(ufficio: String = null,
                             dataA: String = null) extends StepConfig {

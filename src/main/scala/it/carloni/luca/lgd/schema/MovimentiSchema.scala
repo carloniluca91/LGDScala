@@ -1,10 +1,10 @@
 package it.carloni.luca.lgd.schema
 
-import scala.collection.immutable.Map
+import scala.collection.mutable
 
 object MovimentiSchema {
 
-  val tlbmovcontaPigSchema: Map[String, String] = Map(
+  val tlbmovcontaPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap(
 
     "mo_dt_riferimento" -> "chararray",
     "mo_istituto" -> "chararray",

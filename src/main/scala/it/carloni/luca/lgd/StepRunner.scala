@@ -105,6 +105,22 @@ class StepRunner {
           case None => // arguments are bad, error message will have been displayed
         }
 
+      case StepNames.Movimenti =>
+
+        logger.info(s"Matched step ${stepNameValue.toString}")
+
+        val dtOsservazioneConfig = DtOsservazioneConfig
+        val optionParser = StepParser.dtOsservazioneParser
+        optionParser.parse(args, dtOsservazioneConfig()) match {
+
+          case Some(value) =>
+
+            logger.info(s"Successfully parsed arguments for step $stepNameToUpperCase")
+            new Movimenti().run(value)
+
+          case None => // arguments are bad, error message will have been displayed
+        }
+
       case _ => logger.warn(s"Unable to match step $stepNameToUpperCase. Thus, no step will be run")
     }
   }
