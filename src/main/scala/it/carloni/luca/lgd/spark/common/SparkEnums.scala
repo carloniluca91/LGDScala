@@ -37,5 +37,6 @@ object SparkEnums {
     val FrappPuma: Value = Value("FRAPP_PUMA")
     val Movimenti: Value = Value("MOVIMENTI")
     val Posaggr: Value = Value("POSAGGR")
+    val QuadFcollCicli: Value = Value("QUAD_FCOLL_CICLI")
   }
 }
