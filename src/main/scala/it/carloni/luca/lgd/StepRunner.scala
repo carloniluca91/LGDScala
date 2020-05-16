@@ -121,6 +121,12 @@ class StepRunner {
           case None => // arguments are bad, error message will have been displayed
         }
 
+      case StepNames.Posaggr =>
+
+        logger.info(s"Matched step ${stepNameValue.toString}")
+
+        new Posaggr().run(new NoValueConfig())
+
       case _ => logger.warn(s"Unable to match step $stepNameToUpperCase. Thus, no step will be run")
     }
   }

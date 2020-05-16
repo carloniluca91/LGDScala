@@ -1,10 +1,10 @@
 package it.carloni.luca.lgd.schema
 
-import scala.collection.immutable.Map
+import scala.collection.mutable
 
 object PosaggrSchema {
 
-  val tblcompPigSchema: Map[String, String] = Map(
+  val tblcompPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap(
 
     "dt_riferimento" -> "int",
     "c_key" -> "chararray",
@@ -13,7 +13,7 @@ object PosaggrSchema {
     "ndg" -> "chararray"
   )
 
-  val tlbaggrPigSchema: Map[String, String] = Map(
+  val tlbaggrPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap(
 
     "dt_riferimento" -> "int",
     "c_key_aggr" -> "chararray",
@@ -41,7 +41,7 @@ object PosaggrSchema {
     "n058_int_vig" -> "chararray"
   )
 
-  val tlbposiPigSchema: Map[String, String] = Map(
+  val tlbposiPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap(
 
     "dt_riferimento" -> "int",
     "cd_istituto" -> "chararray",
