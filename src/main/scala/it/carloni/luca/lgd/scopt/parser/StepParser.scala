@@ -1,7 +1,7 @@
 package it.carloni.luca.lgd.scopt.parser
 
-import it.carloni.luca.lgd.scopt.config.{DtAConfig, DtANumeroMesi12Config, DtAUfficioConfig, DtDaDtAConfig, DtOsservazioneConfig, UfficioConfig}
-import it.carloni.luca.lgd.scopt.option.{OptionNaming, OptionValidation}
+import it.carloni.luca.lgd.scopt.config._
+import it.carloni.luca.lgd.scopt.option._
 import scopt.OptionParser
 
 object StepParser {
