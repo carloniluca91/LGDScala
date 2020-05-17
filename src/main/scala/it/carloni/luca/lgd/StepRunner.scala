@@ -183,6 +183,23 @@ class StepRunner {
         logger.info(s"Matched step ${stepNameValue.toString}")
         new RaccInc().run(new EmptyConfig())
 
+      case StepNames.SofferenzePreview =>
+
+        logger.info(s"Matched step ${stepNameValue.toString}")
+
+        val dtAUfficioConfig = DtAUfficioConfig
+        val optionParser = StepParser.dtAUfficioParser
+
+        optionParser.parse(args, dtAUfficioConfig()) match {
+
+          case Some(value) =>
+
+            logger.info(s"Successfully parsed arguments for step $stepNameToUpperCase")
+            new SofferenzePreview().run(value)
+
+          case None => // arguments are bad, error message will have been displayed
+        }
+
       case _ => logger.warn(s"Unable to match step $stepNameToUpperCase. Thus, no step will be run")
     }
   }

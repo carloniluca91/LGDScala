@@ -1,10 +1,10 @@
 package it.carloni.luca.lgd.schema
 
-import scala.collection.immutable.Map
+import scala.collection.mutable
 
 object SofferenzePreviewSchema {
 
-  val soffLoadPigSchema: Map[String, String] = Map(
+  val soffLoadPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap(
 
     "istituto" -> "chararray",
     "ndg" -> "chararray",
