@@ -1,10 +1,10 @@
 package it.carloni.luca.lgd.schema
 
-import scala.collection.immutable.Map
+import scala.collection.mutable
 
 object QuadFrappSchema {
 
-  val hadoopFrappPigSchema: Map[String, String] = Map(
+  val hadoopFrappPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap(
 
     "codicebanca" -> "chararray",
     "ndg" -> "chararray",
@@ -81,7 +81,7 @@ object QuadFrappSchema {
     "ndgprincipale" -> "chararray",
     "datainiziodef" -> "chararray")
 
-  val oldFrappLoadPigSchema: Map[String, String] = Map(
+  val oldFrappLoadPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap(
 
     "CODICEBANCA" -> "chararray",
     "NDG" -> "chararray",
@@ -157,7 +157,7 @@ object QuadFrappSchema {
     "D6970_GAR_PERS" -> "chararray",
     "ADDEBITI_IN_SOSP" -> "chararray")
 
-  val fcollPigSchema: Map[String, String] = Map(
+  val fcollPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap(
 
     "CODICEBANCA" -> "chararray",
     "NDGPRINCIPALE" -> "chararray",
