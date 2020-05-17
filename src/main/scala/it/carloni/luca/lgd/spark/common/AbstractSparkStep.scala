@@ -36,6 +36,7 @@ abstract class AbstractSparkStep[T <: StepConfig] extends SparkStepTrait[T] {
     // UDF REGISTRATION
     sparkSession.udf.register(UDFsNames.AddDurationUDFName.toString, SparkUDFs.addDurationUDF)
     sparkSession.udf.register(UDFsNames.ChangeDateFormatUDFName.toString, SparkUDFs.changeDateFormatUDF)
+    sparkSession.udf.register(UDFsNames.ChangeDateFormatFromY2toY4UDFName.toString, SparkUDFs.changeDateFormatFromY2toY4UDF)
     sparkSession.udf.register(UDFsNames.DaysBetweenUDFName.toString, SparkUDFs.daysBetweenUDF)
     sparkSession.udf.register(UDFsNames.LeastDateUDFName.toString, SparkUDFs.leastDateUDF)
     sparkSession.udf.register(UDFsNames.SubtractDurationUDFName.toString, SparkUDFs.subtractDurationUDF)

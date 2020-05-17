@@ -3,11 +3,11 @@ package it.carloni.luca.lgd.spark.step
 import it.carloni.luca.lgd.schema.PosaggrSchema
 import it.carloni.luca.lgd.scopt.config.NoValueConfig
 import it.carloni.luca.lgd.spark.common.AbstractSparkStep
-import org.apache.spark.sql.Column
-import org.apache.spark.sql.types.DataTypes
-import org.apache.spark.sql.functions.{col, regexp_replace, sum, trim}
-import org.apache.spark.sql.expressions.{Window, WindowSpec}
 import org.apache.log4j.Logger
+import org.apache.spark.sql.Column
+import org.apache.spark.sql.expressions.{Window, WindowSpec}
+import org.apache.spark.sql.functions.{col, regexp_replace, sum, trim}
+import org.apache.spark.sql.types.DataTypes
 
 import scala.collection.mutable
 

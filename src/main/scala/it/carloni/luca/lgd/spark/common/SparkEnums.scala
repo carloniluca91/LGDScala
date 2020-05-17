@@ -22,6 +22,7 @@ object SparkEnums {
 
     val AddDurationUDFName: Value = Value("addDuration")
     val ChangeDateFormatUDFName: Value = Value("changeDateFormat")
+    val ChangeDateFormatFromY2toY4UDFName: Value = Value("changeDateFormatFromY2toY4")
     val DaysBetweenUDFName: Value = Value("daysBetween")
     val LeastDateUDFName: Value = Value("leastDate")
     val SubtractDurationUDFName: Value = Value("subtractDuration")
@@ -37,6 +38,11 @@ object SparkEnums {
     val FrappPuma: Value = Value("FRAPP_PUMA")
     val Movimenti: Value = Value("MOVIMENTI")
     val Posaggr: Value = Value("POSAGGR")
+    val QuadFcoll: Value = Value("QUAD_FCOLL")
     val QuadFcollCicli: Value = Value("QUAD_FCOLL_CICLI")
+    val QuadFposi: Value = Value("QUAD_FPOSI")
+    val QuadFrapp: Value = Value("QUAD_FRAPP")
+    val RaccInc: Value = Value("RACC_INC")
+    val SofferenzePreview: Value = Value("SOFFERENZE_PREVIEW")
   }
 }

@@ -25,6 +25,24 @@ object SparkUDFs {
           case Success(value) => value
         }}})
 
+  val changeDateFormatFromY2toY4UDF: UserDefinedFunction = udf((date: String, oldPattern: String, newPattern: String) => {
+
+    Option(date) match {
+
+      case None => null
+      case Some(value) =>
+        Try(LocalDate.parse(value, DateTimeFormatter.ofPattern(oldPattern))) match {
+
+          case Failure(_) => null
+          case Success(localDate: LocalDate) =>
+
+            val formatter = DateTimeFormatter.ofPattern(newPattern)
+            if (localDate.isAfter(LocalDate.now())) localDate.minusYears(100).format(formatter)
+            else localDate.format(formatter)
+        }
+    }
+  })
+
   val changeDateFormatUDF: UserDefinedFunction = udf((date: String, oldPattern: String, newPattern: String) => {
 
     Option(date) match {

@@ -142,6 +142,21 @@ class StepRunner {
           case None => // arguments are bad, error message will have been displayed
         }
 
+      case StepNames.QuadFposi =>
+
+        val ufficioConfig = UfficioConfig
+        val optionParser = StepParser.ufficioParser
+
+        optionParser.parse(args, ufficioConfig()) match {
+
+          case Some(value) =>
+
+            logger.info(s"Successfully parsed arguments for step $stepNameToUpperCase")
+            new QuadFposi().run(value)
+
+          case None => // arguments are bad, error message will have been displayed
+        }
+
       case _ => logger.warn(s"Unable to match step $stepNameToUpperCase. Thus, no step will be run")
     }
   }
