@@ -1,10 +1,10 @@
 package it.carloni.luca.lgd.schema
 
-import scala.collection.immutable.Map
+import scala.collection.mutable
 
 object RaccIncSchema {
 
-  val tlbmignPigSchema: Map[String, String] = Map(
+  val tlbmignPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap(
 
     "cd_isti_ced" -> "chararray",
     "ndg_ced" -> "chararray",

@@ -71,7 +71,7 @@ class StepRunner {
 
         logger.info(s"Matched step ${stepNameValue.toString}")
 
-        new Fpasperd().run(new NoValueConfig())
+        new Fpasperd().run(new EmptyConfig())
 
       case StepNames.FrappNdgMonthly =>
 
@@ -125,9 +125,11 @@ class StepRunner {
 
         logger.info(s"Matched step ${stepNameValue.toString}")
 
-        new Posaggr().run(new NoValueConfig())
+        new Posaggr().run(new EmptyConfig())
 
       case StepNames.QuadFcollCicli =>
+
+        logger.info(s"Matched step ${stepNameValue.toString}")
 
         val ufficioConfig = UfficioConfig
         val optionParser = StepParser.ufficioParser
@@ -144,6 +146,8 @@ class StepRunner {
 
       case StepNames.QuadFposi =>
 
+        logger.info(s"Matched step ${stepNameValue.toString}")
+
         val ufficioConfig = UfficioConfig
         val optionParser = StepParser.ufficioParser
 
@@ -159,6 +163,8 @@ class StepRunner {
 
       case StepNames.QuadFrapp =>
 
+        logger.info(s"Matched step ${stepNameValue.toString}")
+
         val ufficioConfig = UfficioConfig
         val optionParser = StepParser.ufficioParser
 
@@ -171,6 +177,11 @@ class StepRunner {
 
           case None => // arguments are bad, error message will have been displayed
         }
+
+      case StepNames.RaccInc =>
+
+        logger.info(s"Matched step ${stepNameValue.toString}")
+        new RaccInc().run(new EmptyConfig())
 
       case _ => logger.warn(s"Unable to match step $stepNameToUpperCase. Thus, no step will be run")
     }

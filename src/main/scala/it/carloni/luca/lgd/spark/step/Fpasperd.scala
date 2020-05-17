@@ -1,7 +1,7 @@
 package it.carloni.luca.lgd.spark.step
 
 import it.carloni.luca.lgd.schema.FpasperdSchema
-import it.carloni.luca.lgd.scopt.config.NoValueConfig
+import it.carloni.luca.lgd.scopt.config.EmptyConfig
 import it.carloni.luca.lgd.spark.common.AbstractSparkStep
 import it.carloni.luca.lgd.spark.utils.SparkUtils.{addDurationUDF, daysBetweenUDF, toIntType}
 import org.apache.spark.sql.functions.{coalesce, col, first, lit, substring, when}
@@ -10,7 +10,7 @@ import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.types.DataTypes
 import org.apache.log4j.Logger
 
-class Fpasperd extends AbstractSparkStep[NoValueConfig] {
+class Fpasperd extends AbstractSparkStep[EmptyConfig] {
 
   private val logger = Logger.getLogger(getClass)
 
@@ -25,7 +25,7 @@ class Fpasperd extends AbstractSparkStep[NoValueConfig] {
   private val tlbpaspeFilterPigSchema = FpasperdSchema.tlbpaspeFilterPigSchema
   private val tlbpaspeossPigSchema = FpasperdSchema.tlbpaspeossPigSchema
 
-  def run(noValueConfig: NoValueConfig): Unit = {
+  def run(noValueConfig: EmptyConfig): Unit = {
 
     logger.info(s"fpasperd.cicli.ndg.path.csv: $cicliNdgCsvPath")
     logger.info(s"fpasperd.tlbpaspe.filter.csv: $tlbpaspeFilterCsvPath")

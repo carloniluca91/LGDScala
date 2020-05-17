@@ -1,7 +1,7 @@
 package it.carloni.luca.lgd.spark.step
 
 import it.carloni.luca.lgd.schema.PosaggrSchema
-import it.carloni.luca.lgd.scopt.config.NoValueConfig
+import it.carloni.luca.lgd.scopt.config.EmptyConfig
 import it.carloni.luca.lgd.spark.common.AbstractSparkStep
 import org.apache.log4j.Logger
 import org.apache.spark.sql.Column
@@ -11,7 +11,7 @@ import org.apache.spark.sql.types.DataTypes
 
 import scala.collection.mutable
 
-class Posaggr extends AbstractSparkStep[NoValueConfig] {
+class Posaggr extends AbstractSparkStep[EmptyConfig] {
 
   private val logger = Logger.getLogger(getClass)
 
@@ -26,7 +26,7 @@ class Posaggr extends AbstractSparkStep[NoValueConfig] {
   private val tlbaggrPigSchema: mutable.LinkedHashMap[String, String] = PosaggrSchema.tlbaggrPigSchema
   private val tlbposiPigSchema: mutable.LinkedHashMap[String, String] = PosaggrSchema.tlbposiPigSchema
 
-  override def run(noValueConfig: NoValueConfig): Unit = {
+  override def run(noValueConfig: EmptyConfig): Unit = {
 
     logger.info(s"posaggr.tblcomp.path.csv: $tblcompCsvPath")
     logger.info(s"posaggr.tlbaggr.path.csv: $tlbaggrCsvPath")

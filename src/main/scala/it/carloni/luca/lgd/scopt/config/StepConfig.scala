@@ -4,7 +4,7 @@ import it.carloni.luca.lgd.scopt.option.OptionNaming
 
 sealed abstract class StepConfig
 
-class NoValueConfig extends StepConfig
+class EmptyConfig extends StepConfig
 
 case class UfficioConfig(ufficio: String = null) extends StepConfig
 
