@@ -127,6 +127,12 @@ class StepRunner {
 
         new Posaggr().run(new EmptyConfig())
 
+      case StepNames.QuadFcoll =>
+
+        logger.info(s"Matched step ${stepNameValue.toString}")
+
+        new QuadFcoll().run(new EmptyConfig())
+
       case StepNames.QuadFcollCicli =>
 
         logger.info(s"Matched step ${stepNameValue.toString}")

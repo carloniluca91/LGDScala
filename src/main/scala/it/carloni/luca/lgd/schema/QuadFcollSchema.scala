@@ -1,10 +1,10 @@
 package it.carloni.luca.lgd.schema
 
-import scala.collection.immutable.Map
+import scala.collection.mutable
 
 object QuadFcollSchema {
 
-  val fcollLoadPigSchema: Map[String, String] = Map(
+  val fcollLoadPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap(
 
     "cumulo" -> "chararray",
     "cd_istituto_COLL" -> "chararray",
@@ -13,7 +13,7 @@ object QuadFcollSchema {
     "data_collegamento" -> "chararray",
     "pri" -> "chararray" )
 
-  val oldFposiLoadPigSchema: Map[String, String] = Map(
+  val oldFposiLoadPigSchema: mutable.LinkedHashMap[String, String] = mutable.LinkedHashMap(
 
     "datainizioDEF" -> "chararray",
     "dataFINEDEF" -> "chararray",
